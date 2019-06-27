@@ -2,7 +2,7 @@
     <div>
         <p>Completed Tasks: {{todos.filter(todo => {return todo.doneCheck === true}).length}}</p>
         <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
-        <div v-show="todos.length ===0">No Tasks Found</div>
+        <div v-show="0 === todos.length">No Tasks Found</div>
         <div class='ui centered card' v-for="todo in todos" v-bind:key="todo.id">
             <div class='content'>
                 <div class='header'>
@@ -13,24 +13,19 @@
                 </div>
                 <span v-on:click="deleteTodo(todo)">Delete</span>
             </div>
-            <div v-show="todo.done">
+            <div v-show="todo.doneCheck">
                 Completed
             </div>
-            <div v-show="!todo.done">
-                Complete
+            <div v-show="!todo.doneCheck">
+                In Progress
             </div>
         </div>
-        <div class="add-form">
-            <input type="text" v-model="title" id="title">
-            <label for="title">Title</label>
-        </div>
-        <div class="" style="border: 10px solid black;">
-            <span v-on:click="addTodo(todos)">Add</span>
-        </div>
+        <add-item></add-item>
     </div>
 </template>
 
 <script>
+    import addItem from './AddItem'
     export default {
         props: ['todos'],
         methods: {
@@ -38,10 +33,9 @@
                 const todoIndex = this.todos.indexOf(todo)
                 this.todos.splice(todoIndex, 1)
             },
-            addTodo(todos) {
-                let new_item = {title: 'test',project: 'test', doneCheck: false}
-                todos.push(new_item)
-            }
+        },
+        components: {
+            addItem
         }
     }
 
