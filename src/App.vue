@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg=""/>
+    <todo-list v-bind:todos="todos"></todo-list>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+  import TodoList from './components/TodoList'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    TodoList
+  },
+  data() {
+    return {
+      todos: [
+        {
+          title: 'Test 1',
+          project: 'Project A',
+          doneCheck: true
+        },
+        {
+          title: 'Test 2',
+          project: 'Project B',
+          doneCheck: false
+        },
+        {
+          title: 'Test 3',
+          project: 'Project C',
+          doneCheck: false
+        }
+      ]
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
