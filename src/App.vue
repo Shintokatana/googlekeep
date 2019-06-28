@@ -15,16 +15,19 @@ export default {
     return {
       todos: [
         {
+          id: 0,
           title: 'Test 1',
           project: 'Project A',
           doneCheck: true
         },
         {
+          id: 1,
           title: 'Test 2',
           project: 'Project B',
           doneCheck: false
         },
         {
+          id: 2,
           title: 'Test 3',
           project: 'Project C',
           doneCheck: false
