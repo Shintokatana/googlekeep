@@ -1,13 +1,13 @@
 <template>
     <div>
-        <span @click="showComments(single)">Show Comments</span>
-        <div :key="comment.id" v-for="comment in comments">
-            <div v-if="showState">
+        <span @click="open=true">Show Comments</span>
+        <vue-modaltor :visible="open" @hide="hideModal">
+            <div :key="comment.id" v-for="comment in comments">
                 <div class="author">{{comment.author}}</div>
                 <div class="comment">{{comment.comment}}</div>
             </div>
-        </div>
-        <AddComment v-if="showState" v-bind:coments="comments"></AddComment>
+            <AddComment v-bind:coments="comments"></AddComment>
+        </vue-modaltor>
     </div>
 </template>
 
@@ -19,14 +19,14 @@
               comments: [
                   {}
               ],
-              showState: false,
+              open: false,
           }
         },
         name: "SingleItemComments",
         props: ['single'],
         methods: {
-            showComments() {
-                this.showState = true !== this.showState;
+            hideModal() {
+                this.open = false
             }
         },
         components: {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
+import VueMOdalTor from 'vue-modaltor'
 
 const router = new VueRouter({
   mode: 'history',
@@ -9,6 +10,7 @@ const router = new VueRouter({
   ]
 });
 
+Vue.use(VueMOdalTor);
 Vue.config.productionTip = false;
 
 new Vue({

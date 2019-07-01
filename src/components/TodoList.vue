@@ -18,7 +18,6 @@
         },
         props: ['todos'],
     }
-
 </script>
 
 <style scoped lang="scss">

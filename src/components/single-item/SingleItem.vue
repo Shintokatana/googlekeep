@@ -1,26 +1,26 @@
 <template>
     <div>
         <div class="element todo-item" v-for="todo in todos" :key="todo.id" v-bind:class="{pinned: todo.pinned}">
-            <span @click="pinItem(todo)">Pin</span>
-            <div class='content'>
-                <div class='title'>
-                    {{ todo.title }}
+                <span @click="pinItem(todo)">Pin</span>
+                <div class='content'>
+                    <div class='title'>
+                        {{ todo.title }}
+                    </div>
+                    <div class='description'>
+                        {{ todo.project }}
+                    </div>
                 </div>
-                <div class='description'>
-                    {{ todo.project }}
+                <div class="bottom-content">
+                    <span @click="deleteTodo(todo)">Delete</span>
+                    <div v-show="todo.doneCheck">
+                        <div @click="markDone(todo)">Completed</div>
+                    </div>
+                    <div v-show="!todo.doneCheck">
+                        <div @click="markDone(todo)">In Progress</div>
+                    </div>
                 </div>
+                <CommentsArea v-bind:single="todo"></CommentsArea>
             </div>
-            <div class="bottom-content">
-                <span @click="deleteTodo(todo)">Delete</span>
-                <div v-show="todo.doneCheck">
-                    <div @click="markDone(todo)">Completed</div>
-                </div>
-                <div v-show="!todo.doneCheck">
-                    <div @click="markDone(todo)">In Progress</div>
-                </div>
-            </div>
-            <CommentsArea v-bind:single="todo"></CommentsArea>
-        </div>
     </div>
 </template>
 
@@ -30,7 +30,11 @@
         name: "TodoSingleItem",
         props: ['todos'],
         components: {
-            CommentsArea
+            CommentsArea,
+        },
+        data() {
+            return {
+            }
         },
         methods: {
             deleteTodo(todo) {
@@ -52,6 +56,7 @@
         &.pinned {
             border: 4px solid black;
         }
+
         max-width: 400px;
         width: 100%;
         text-align: center;

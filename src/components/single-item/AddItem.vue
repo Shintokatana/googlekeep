@@ -32,6 +32,7 @@
                     const lastID = this.todos[this.todos.length -1].id;
                     this.todos.push({id:lastID+1,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false})
                 }
+                this.showForm = false
             },
             showFrom() {
                 this.showForm = false === this.showForm;
