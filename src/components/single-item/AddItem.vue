@@ -27,10 +27,10 @@
         methods: {
             addNewItem() {
                 if (!this.todos.length){
-                    this.todos.push({id:0,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false})
+                    this.todos.push({id:0,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false, pinned: false})
                 } else {
                     const lastID = this.todos[this.todos.length -1].id;
-                    this.todos.push({id:lastID+1,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false})
+                    this.todos.push({id:lastID+1,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false, pinned: false})
                 }
                 this.showForm = false
             },

@@ -1,26 +1,26 @@
 <template>
-    <div>
+    <div class="items-wrapper">
         <div class="element todo-item" v-for="todo in todos" :key="todo.id" v-bind:class="{pinned: todo.pinned}">
-                <span @click="pinItem(todo)">Pin</span>
-                <div class='content'>
-                    <div class='title'>
-                        {{ todo.title }}
-                    </div>
-                    <div class='description'>
-                        {{ todo.project }}
-                    </div>
+            <span @click="pinItem(todo)">Pin</span>
+            <div class='content'>
+                <div class='title'>
+                    {{ todo.title }}
                 </div>
-                <div class="bottom-content">
-                    <span @click="deleteTodo(todo)">Delete</span>
-                    <div v-show="todo.doneCheck">
-                        <div @click="markDone(todo)">Completed</div>
-                    </div>
-                    <div v-show="!todo.doneCheck">
-                        <div @click="markDone(todo)">In Progress</div>
-                    </div>
+                <div class='description'>
+                    {{ todo.project }}
                 </div>
-                <CommentsArea v-bind:single="todo"></CommentsArea>
             </div>
+            <div class="bottom-content">
+                <span @click="deleteTodo(todo)">Delete</span>
+                <div v-show="todo.doneCheck">
+                    <div @click="markDone(todo)">Completed</div>
+                </div>
+                <div v-show="!todo.doneCheck">
+                    <div @click="markDone(todo)">In Progress</div>
+                </div>
+            </div>
+            <CommentsArea v-bind:single="todo"></CommentsArea>
+        </div>
     </div>
 </template>
 
@@ -52,18 +52,23 @@
 </script>
 
 <style scoped lang="scss">
+
+    .items-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
     .todo-item {
         &.pinned {
             border: 4px solid black;
         }
-
-        max-width: 400px;
-        width: 100%;
+        flex: 0 1 25%;
+        max-width: 25%;
+        margin: 0 15px 20px;
         text-align: center;
-        background-color: aqua;
         padding: 15px;
         border: 1px solid chocolate;
-        margin-bottom: 20px;
         border-radius: 25px;
 
         .bottom-content {

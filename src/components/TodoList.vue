@@ -1,10 +1,10 @@
 <template>
     <div>
+        <AddItem v-bind:todos="todos"></AddItem>
         <p>Completed Tasks: {{todos.filter(todo => {return todo.doneCheck === true}).length}}</p>
         <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
         <div v-show="0 === todos.length">No Tasks Found</div>
         <TodoSingleItem v-bind:todos="todos"></TodoSingleItem>
-        <AddItem v-bind:todos="todos"></AddItem>
     </div>
 </template>
 
