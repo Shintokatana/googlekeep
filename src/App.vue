@@ -18,19 +18,22 @@ export default {
           id: 0,
           title: 'Test 1',
           project: 'Project A',
-          doneCheck: true
+          doneCheck: false,
+          pinned: false
         },
         {
           id: 1,
           title: 'Test 2',
           project: 'Project B',
-          doneCheck: false
+          doneCheck: false,
+          pinned: false
         },
         {
           id: 2,
           title: 'Test 3',
           project: 'Project C',
-          doneCheck: false
+          doneCheck: false,
+          pinned: false
         }
       ]
     }
