@@ -16,7 +16,11 @@
             AddItem,
             TodoSingleItem,
         },
-        props: ['todos'],
+        computed: {
+            todos() {
+                return this.$store.state.todos
+            }
+        },
     }
 </script>
 

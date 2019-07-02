@@ -28,9 +28,13 @@
     import CommentsArea from './single-comments/SingleItemComments'
     export default {
         name: "TodoSingleItem",
-        props: ['todos'],
         components: {
             CommentsArea,
+        },
+        computed: {
+            todos() {
+                return this.$store.state.todos
+            }
         },
         data() {
             return {
@@ -45,7 +49,7 @@
                 todo.doneCheck = true !== todo.doneCheck
             },
             pinItem(todo) {
-                todo.pinned = true !== todo.pinned
+                this.$store.commit('pinGlobalItem', todo.id);
             }
         }
     }
