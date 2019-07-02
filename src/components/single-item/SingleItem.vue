@@ -38,13 +38,13 @@
         },
         methods: {
             deleteTodo(todo) {
-                this.$store.commit('deleteGlobalItem', todo.id)
+                this.$store.commit('deleteGlobalItem', todo)
             },
             markDone(todo) {
-                this.$store.commit('markDone', todo.id)
+                this.$store.commit('markDone', todo)
             },
             pinItem(todo) {
-                this.$store.commit('pinGlobalItem', todo.id);
+                this.$store.commit('pinGlobalItem', todo);
             }
         }
     }

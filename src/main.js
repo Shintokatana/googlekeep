@@ -11,15 +11,13 @@ const store = new Vuex.Store({
   state: {
     todos: [
       {
-        id: 0,
         title: 'Test 1',
         project: 'Project A',
         doneCheck: false,
         pinned: false,
-        comments: []
+        comments: [{author: "Author", comment: "Some Comment"}]
       },
       {
-        id: 1,
         title: 'Test 2',
         project: 'Project B',
         doneCheck: false,
@@ -27,7 +25,6 @@ const store = new Vuex.Store({
         comments: []
       },
       {
-        id: 2,
         title: 'Test 3',
         project: 'Project C',
         doneCheck: false,
@@ -40,15 +37,17 @@ const store = new Vuex.Store({
     addGlobalItem(state, item) {
       state.todos.push(item)
     },
-    deleteGlobalItem(state, itemID) {
-      const deleteIndex = state.todos.indexOf(itemID);
-      state.todos.splice(deleteIndex, 1)
+    deleteGlobalItem(state, item) {
+      const currIndex = state.todos.indexOf(item);
+      state.todos.splice(currIndex, 1)
     },
-    pinGlobalItem(state, itemID) {
-      state.todos[itemID].pinned = true !== state.todos[itemID].pinned
+    pinGlobalItem(state, item) {
+      const currIndex = state.todos.indexOf(item);
+      state.todos[currIndex].pinned = true !== state.todos[currIndex].pinned
     },
-    markDone(state, itemID) {
-      state.todos[itemID].doneCheck = true !== state.todos[itemID].doneCheck
+    markDone(state, item) {
+      const currIndex = state.todos.indexOf(item);
+      state.todos[currIndex].doneCheck = true !== state.todos[currIndex].doneCheck
     }
   }
 });
