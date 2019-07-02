@@ -36,14 +36,9 @@
                 return this.$store.state.todos
             }
         },
-        data() {
-            return {
-            }
-        },
         methods: {
             deleteTodo(todo) {
-                const todoIndex = this.todos.indexOf(todo);
-                this.$store.commit('deleteGlobalItem', todoIndex)
+                this.$store.commit('deleteGlobalItem', todo.id)
             },
             markDone(todo) {
                 this.$store.commit('markDone', todo.id)
@@ -60,7 +55,7 @@
     .items-wrapper {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: wrap;
     }
     .todo-item {

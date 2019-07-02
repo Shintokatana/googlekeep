@@ -30,7 +30,7 @@
         },
         methods: {
             addNewItem() {
-                const lastIndex = this.$store.state.todos.length + 1;
+                const lastIndex = this.$store.state.todos.length;
                 let newItem = { title: this.$refs.title.value, project: this.$refs.project.value, doneCheck: false, pinned: false};
                 if ( !this.$store.state.todos.length ) {
                     newItem.id = 0;

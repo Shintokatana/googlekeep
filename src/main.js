@@ -8,7 +8,6 @@ Vue.use(Vuex);
 Vue.use(VueModalTor);
 
 const store = new Vuex.Store({
-  debug: true,
   state: {
     todos: [
       {
@@ -42,13 +41,14 @@ const store = new Vuex.Store({
       state.todos.push(item)
     },
     deleteGlobalItem(state, itemID) {
-      state.todos.splice(itemID, 1)
+      const deleteIndex = state.todos.indexOf(itemID);
+      state.todos.splice(deleteIndex, 1)
     },
     pinGlobalItem(state, itemID) {
-      state.todos[itemID].pinned = this.state.todos[itemID].pinned === false
+      state.todos[itemID].pinned = true !== state.todos[itemID].pinned
     },
     markDone(state, itemID) {
-      state.todos[itemID].doneCheck = true !== state.todos[itemID].doneCheck;
+      state.todos[itemID].doneCheck = true !== state.todos[itemID].doneCheck
     }
   }
 });
