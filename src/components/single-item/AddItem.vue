@@ -30,12 +30,14 @@
         },
         methods: {
             addNewItem() {
-                const todoIndex = this.$store.state.todos.length;
-                if (!this.todos.length){
-                    this.todos.push({id:0,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false, pinned: false})
+                const lastIndex = this.$store.state.todos.length + 1;
+                let newItem = { title: this.$refs.title.value, project: this.$refs.project.value, doneCheck: false, pinned: false};
+                if ( !this.$store.state.todos.length ) {
+                    newItem.id = 0;
                 } else {
-                    this.todos.push({id:todoIndex,title: this.$refs.title.value,project: this.$refs.project.value, doneCheck: false, pinned: false})
+                    newItem.id = lastIndex;
                 }
+                this.$store.commit('addGlobalItem', newItem);
                 this.showForm = false
             },
             showFrom() {

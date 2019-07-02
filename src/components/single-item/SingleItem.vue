@@ -43,10 +43,10 @@
         methods: {
             deleteTodo(todo) {
                 const todoIndex = this.todos.indexOf(todo);
-                this.todos.splice(todoIndex, 1)
+                this.$store.commit('deleteGlobalItem', todoIndex)
             },
             markDone(todo) {
-                todo.doneCheck = true !== todo.doneCheck
+                this.$store.commit('markDone', todo.id)
             },
             pinItem(todo) {
                 this.$store.commit('pinGlobalItem', todo.id);

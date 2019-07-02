@@ -8,6 +8,7 @@ Vue.use(Vuex);
 Vue.use(VueModalTor);
 
 const store = new Vuex.Store({
+  debug: true,
   state: {
     todos: [
       {
@@ -15,27 +16,39 @@ const store = new Vuex.Store({
         title: 'Test 1',
         project: 'Project A',
         doneCheck: false,
-        pinned: false
+        pinned: false,
+        comments: []
       },
       {
         id: 1,
         title: 'Test 2',
         project: 'Project B',
         doneCheck: false,
-        pinned: false
+        pinned: false,
+        comments: []
       },
       {
         id: 2,
         title: 'Test 3',
         project: 'Project C',
         doneCheck: false,
-        pinned: false
+        pinned: false,
+        comments: []
       }
     ]
   },
   mutations: {
+    addGlobalItem(state, item) {
+      state.todos.push(item)
+    },
+    deleteGlobalItem(state, itemID) {
+      state.todos.splice(itemID, 1)
+    },
     pinGlobalItem(state, itemID) {
-      state.todos[itemID].pinned = this.state.todos[itemID].pinned === false;
+      state.todos[itemID].pinned = this.state.todos[itemID].pinned === false
+    },
+    markDone(state, itemID) {
+      state.todos[itemID].doneCheck = true !== state.todos[itemID].doneCheck;
     }
   }
 });

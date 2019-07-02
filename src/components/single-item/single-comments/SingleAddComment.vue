@@ -18,7 +18,7 @@
         props: ['coments','single'],
         methods: {
             addComment() {
-                this.coments.push({id: this.single.id, author: this.$refs.author.value, comment: this.$refs.comment.value })
+                this.coments.push({ author: this.$refs.author.value, comment: this.$refs.comment.value })
             }
         }
     }
