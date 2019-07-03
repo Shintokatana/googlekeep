@@ -1,41 +1,32 @@
 <template>
-    <div class="items-wrapper">
-        <div class="element todo-item" v-for="todo in todos" :key="todo.id" v-bind:class="{pinned: todo.pinned}">
-            <span @click="pinItem(todo)">Pin</span>
-            <div class='content'>
-                <div class='title'>
-                    {{ todo.title }}
-                </div>
-                <div class='description'>
-                    {{ todo.project }}
-                </div>
+    <div class="element todo-item">
+        <span @click="pinItem(todo)">Pin</span>
+        <div class='content'>
+            <div class='title'>
+                {{ todo.title }}
             </div>
-            <div class="bottom-content">
-                <span @click="deleteTodo(todo)">Delete</span>
-                <div v-show="todo.doneCheck">
-                    <div @click="markDone(todo)">Completed</div>
-                </div>
-                <div v-show="!todo.doneCheck">
-                    <div @click="markDone(todo)">In Progress</div>
-                </div>
+            <div class='description'>
+                {{ todo.project }}
             </div>
-            <CommentsArea v-bind:single="todo"></CommentsArea>
+        </div>
+        <div class="bottom-content">
+            <span @click="deleteTodo(todo)">Delete</span>
+            <div v-show="todo.doneCheck">
+                <div @click="markDone(todo)">Completed</div>
+            </div>
+            <div v-show="!todo.doneCheck">
+                <div @click="markDone(todo)">In Progress</div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import CommentsArea from './single-comments/SingleItemComments'
     export default {
         name: "TodoSingleItem",
         components: {
-            CommentsArea,
         },
-        computed: {
-            todos() {
-                return this.$store.state.todos
-            }
-        },
+        props: ['todo'],
         methods: {
             deleteTodo(todo) {
                 this.$store.commit('deleteGlobalItem', todo)
@@ -52,12 +43,6 @@
 
 <style scoped lang="scss">
 
-    .items-wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-    }
     .todo-item {
         &.pinned {
             border: 4px solid black;
