@@ -30,7 +30,7 @@
         },
         methods: {
             addNewItem() {
-                let newItem = {title: this.$refs.title.value, project: this.$refs.project.value, doneCheck: false, pinned: false};
+                let newItem = {title: this.$refs.title.value, project: this.$refs.project.value, doneCheck: false, pinned: false, comments: []};
                 this.$store.commit('addGlobalItem', newItem);
                 this.showForm = false
             },
