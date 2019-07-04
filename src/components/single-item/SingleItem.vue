@@ -1,23 +1,26 @@
 <template>
     <div class="element todo-item">
-        <span @click="pinItem(todo)">Pin</span>
-        <div class='content'>
-            <div class='title'>
-                {{ todo.title }}
+        <div class="todo-body" :style="todo.bgc">
+            <span @click="pinItem(todo)">Pin</span>
+            <div class='content'>
+                <div class='title'>
+                    {{ todo.title }}
+                </div>
+                <div class='description'>
+                    {{ todo.project }}
+                </div>
             </div>
-            <div class='description'>
-                {{ todo.project }}
+            <div class="bottom-content">
+                <span @click="deleteTodo(todo)">Delete</span>
+                <div v-show="todo.doneCheck">
+                    <div @click="markDone(todo)">Completed</div>
+                </div>
+                <div v-show="!todo.doneCheck">
+                    <div @click="markDone(todo)">In Progress</div>
+                </div>
             </div>
         </div>
-        <div class="bottom-content">
-            <span @click="deleteTodo(todo)">Delete</span>
-            <div v-show="todo.doneCheck">
-                <div @click="markDone(todo)">Completed</div>
-            </div>
-            <div v-show="!todo.doneCheck">
-                <div @click="markDone(todo)">In Progress</div>
-            </div>
-        </div>
+        <color-picker v-model="bgclr" popover-to="left"></color-picker>
     </div>
 </template>
 
@@ -26,7 +29,19 @@
         name: "TodoSingleItem",
         components: {
         },
-        props: ['todo'],
+        props: {
+            todo: Object
+        },
+        data() {
+            return {
+                bgclr: ''
+            }
+        },
+        watch: {
+            bgclr: function (newColor) {
+                this.updateColor({id: this.todo.id, color: newColor})
+            }
+        },
         methods: {
             deleteTodo(todo) {
                 this.$store.commit('deleteGlobalItem', todo)
@@ -36,14 +51,21 @@
             },
             pinItem(todo) {
                 this.$store.commit('pinGlobalItem', todo);
+            },
+            updateColor(item) {
+                this.$store.commit('updateGlobalColor', item);
             }
         }
     }
 </script>
 
 <style scoped lang="scss">
-
     .todo-item {
+        .todo-body {
+            padding: 15px;
+            border: 1px solid chocolate;
+            border-radius: 25px;
+        }
         &.pinned {
             border: 4px solid black;
         }
@@ -51,9 +73,6 @@
         max-width: 25%;
         margin: 0 15px 20px;
         text-align: center;
-        padding: 15px;
-        border: 1px solid chocolate;
-        border-radius: 25px;
 
         .bottom-content {
             display: flex;

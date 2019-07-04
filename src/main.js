@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueModalTor from 'vue-modaltor'
 import store from './store'
 import router from './router'
+import Swatch from 'vue-swatches'
 
-Vue.use(VueModalTor);
+Vue.component('color-picker', Swatch);
 
 Vue.config.productionTip = false;
 

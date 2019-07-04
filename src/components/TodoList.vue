@@ -11,12 +11,13 @@
 </template>
 
 <script>
-    import AddItem from './AddItem'
+    import AddItem from './add-item/AddItem'
     import TodoSingleItem from './single-item/SingleItem'
+
     export default {
         components: {
             AddItem,
-            TodoSingleItem,
+            TodoSingleItem
         },
         computed: {
             todos() {

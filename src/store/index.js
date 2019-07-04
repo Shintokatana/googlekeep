@@ -7,25 +7,43 @@ export default new Vuex.Store({
     state: {
         todos: [
             {
-                title: 'Test 1',
+                id: 0,
+                title: 'Title 1',
                 project: 'Project A',
                 doneCheck: false,
                 pinned: false,
-                comments: [{author: "Author", comment: "Some Comment"}]
+                bgc: {
+                    backgroundColor: String
+                },
+                list: [
+
+                ]
             },
             {
-                title: 'Test 2',
-                project: 'Project B',
+                id: 1,
+                title: 'Title',
+                project: 'description',
                 doneCheck: false,
                 pinned: false,
-                comments: []
+                bgc: {
+                    backgroundColor: String
+                },
+                list: [
+
+                ]
             },
             {
+                id: 2,
                 title: 'Test 3',
                 project: 'Project C',
                 doneCheck: false,
                 pinned: false,
-                comments: []
+                bgc: {
+                    backgroundColor: String
+                },
+                list: [
+
+                ]
             }
         ]
     },
@@ -44,6 +62,10 @@ export default new Vuex.Store({
         markDone(state, item) {
             const currIndex = state.todos.indexOf(item);
             state.todos[currIndex].doneCheck = true !== state.todos[currIndex].doneCheck
+        },
+        updateGlobalColor(state, item) {
+            let elementPos = state.todos.map(function(x) {return x.id; }).indexOf(item.id);
+            state.todos[elementPos].bgc.backgroundColor = item.color;
         }
     }
 });
