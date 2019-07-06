@@ -15,4 +15,8 @@ export default {
 </script>
 
 <style>
+  * {
+    transition: .4s ease all;
+    font-family: 'Ubuntu', sans-serif;
+  }
 </style>

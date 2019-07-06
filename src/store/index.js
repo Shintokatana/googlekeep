@@ -13,7 +13,7 @@ export default new Vuex.Store({
                 doneCheck: false,
                 pinned: false,
                 bgc: {
-                    backgroundColor: String
+                    backgroundColor: ''
                 },
                 list: [
 
@@ -26,7 +26,7 @@ export default new Vuex.Store({
                 doneCheck: false,
                 pinned: false,
                 bgc: {
-                    backgroundColor: String
+                    backgroundColor: ''
                 },
                 list: [
 
@@ -39,17 +39,25 @@ export default new Vuex.Store({
                 doneCheck: false,
                 pinned: false,
                 bgc: {
-                    backgroundColor: String
+                    backgroundColor: ''
                 },
                 list: [
 
                 ]
             }
+        ],
+        newItemList: [
+            {
+                id: 0,
+                checked: false,
+                visited: false,
+                content: ''
+            }
         ]
     },
     mutations: {
         addGlobalItem(state, item) {
-            state.todos.push(item)
+            state.todos.push(item);
         },
         deleteGlobalItem(state, item) {
             const currIndex = state.todos.indexOf(item);
@@ -64,8 +72,8 @@ export default new Vuex.Store({
             state.todos[currIndex].doneCheck = true !== state.todos[currIndex].doneCheck
         },
         updateGlobalColor(state, item) {
-            let elementPos = state.todos.map(function(x) {return x.id; }).indexOf(item.id);
+            const elementPos = state.todos.map(function(x) {return x.id; }).indexOf(item.id);
             state.todos[elementPos].bgc.backgroundColor = item.color;
-        }
+        },
     }
 });

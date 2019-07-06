@@ -1,7 +1,7 @@
 <template>
     <div class="element todo-item">
         <div class="todo-body" :style="todo.bgc">
-            <span @click="pinItem(todo)">Pin</span>
+            <a @click="pinItem(todo)" class="pin">Pin</a>
             <div class='content'>
                 <div class='title'>
                     {{ todo.title }}
@@ -9,25 +9,33 @@
                 <div class='description'>
                     {{ todo.project }}
                 </div>
+                <div class="list">
+                    <singleItemRender v-bind:list="todo.list"></singleItemRender>
+                </div>
             </div>
             <div class="bottom-content">
-                <span @click="deleteTodo(todo)">Delete</span>
-                <div v-show="todo.doneCheck">
-                    <div @click="markDone(todo)">Completed</div>
-                </div>
-                <div v-show="!todo.doneCheck">
-                    <div @click="markDone(todo)">In Progress</div>
-                </div>
+                <a class="delete" @click.prevent="deleteTodo(todo)">Delete</a>
+                <a class="status-complete" v-show="todo.doneCheck" @click.prevent="markDone(todo)">Completed</a>
+                <a class="status-in-progress" v-show="!todo.doneCheck" @click.prevent="markDone(todo)">In Progress</a>
             </div>
         </div>
-        <color-picker v-model="bgclr" popover-to="left"></color-picker>
+        <color-picker
+            v-model="bgclr"
+            inline
+            shapes="circles"
+            swatch-size="24"
+            colors="material-light"
+        >
+        </color-picker>
     </div>
 </template>
 
 <script>
+    import singleItemRender from './singleItemList'
     export default {
         name: "TodoSingleItem",
         components: {
+            singleItemRender
         },
         props: {
             todo: Object
@@ -60,28 +68,84 @@
 </script>
 
 <style scoped lang="scss">
+    a {
+        cursor: pointer;
+    }
     .todo-item {
+
         .todo-body {
-            padding: 15px;
-            border: 1px solid chocolate;
-            border-radius: 25px;
+
+            &:hover {
+                box-shadow: 0 0 6px 4px #eee;
+            }
+            .pin {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            position: relative;
+            padding: 15px 0 0;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+
+            .content {
+                padding: 10px;
+
+                .title {
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+
+                .description {
+                    font-size: 12px;
+                }
+            }
         }
+
         &.pinned {
             border: 4px solid black;
         }
-        flex: 0 1 25%;
-        max-width: 25%;
-        margin: 0 15px 20px;
-        text-align: center;
 
         .bottom-content {
             display: flex;
             flex-direction: row;
             justify-content: center;
 
+            .delete {
+                border-bottom-left-radius: 10px;
+                background-color: rgb(255, 126, 151);
+                color: black;
+            }
+
+            .status {
+                &-complete,
+                &-in-progress {
+                    border-bottom-right-radius: 10px;
+                }
+
+                &-complete {
+                    color: white;
+                    background-color: rgb(56, 128, 52);
+                }
+
+                &-in-progress {
+                    background-color: rgb(255, 126, 151);
+                }
+            }
+
             > * {
-                margin: 0 15px;
+                padding: 10px 0;
+                flex: 0 1 50%;
+                max-width: 50%;
+                text-align: center;
             }
         }
+
+        flex: 0 1 20%;
+        max-width: 20%;
+        margin: 0 15px 20px;
+        transition: .4s ease all;
+
     }
 </style>

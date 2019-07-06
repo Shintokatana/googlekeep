@@ -1,8 +1,10 @@
 <template>
     <div>
         <AddItem></AddItem>
-        <p>Completed Tasks: {{todos.filter(todo => {return todo.doneCheck === true}).length}}</p>
-        <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
+        <div class="items-status">
+            <p>Completed Tasks: {{todos.filter(todo => {return todo.doneCheck === true}).length}}</p>
+            <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
+        </div>
         <div v-show="0 === todos.length">No Tasks Found</div>
         <div class="items-wrapper">
             <TodoSingleItem v-bind:todo="todo" v-for="todo in todos" :key="todo.id" v-bind:class="{pinned: todo.pinned}"></TodoSingleItem>
@@ -30,10 +32,17 @@
 <style scoped lang="scss">
 
     .items-wrapper {
+        max-width: 1200px;
+        margin: 60px auto 0;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         flex-wrap: wrap;
+    }
+
+    .items-status {
+        max-width: 600px;
+        margin: 0 auto;
     }
 
 </style>
