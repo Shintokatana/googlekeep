@@ -6,8 +6,8 @@
                     <td class="list-item">
                         <input id="row" v-bind:class="{checked: row.checked}" class="list-input" type="text" v-model="row.content" @focusin="addItem(row)" @focusout="addItem(row)">
                         <label for="row"></label>
-                        <span class="check-status" v-if="row.visited" @click="checkListItem(row)">che</span>
-                        <span class="delete-list" v-if="row.visited" @click="deleteRow(row)">x</span>
+                        <span class="check-status" v-if="row.visited" @click="checkListItem(row)"><i class="far fa-check-circle"></i></span>
+                        <span class="delete-list" v-if="row.visited" @click="deleteRow(row)"><i class="fas fa-times"></i></span>
                     </td>
                 </tr>
             </tbody>
@@ -60,6 +60,9 @@
                     transform: translateY(-50%);
                     top: 50%;
                     cursor: pointer;
+                    i {
+                        font-size: 16px;
+                    }
                 }
                 .check-status {
                     left: 10px

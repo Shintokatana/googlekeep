@@ -6,9 +6,15 @@
             <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
         </div>
         <div v-show="0 === todos.length">No Tasks Found</div>
-        <div class="items-wrapper">
-            <TodoSingleItem v-bind:todo="todo" v-for="todo in todos" :key="todo.id" v-bind:class="{pinned: todo.pinned}"></TodoSingleItem>
-        </div>
+        <transition-group tag="div" class="items-wrapper" name="list">
+            <TodoSingleItem
+                    draggable="true"
+                    v-bind:todo="todo"
+                    v-for="todo in todos"
+                    :key="todo.id"
+                    v-bind:class="{pinned: todo.pinned}">
+            </TodoSingleItem>
+        </transition-group>
     </div>
 </template>
 
@@ -22,10 +28,11 @@
             TodoSingleItem
         },
         computed: {
-            todos() {
-                return this.$store.state.todos
+            todos: function () {
+                let self = this;
+                return self.$store.state.todos.sort(function(x, y) { return y.pinned - x.pinned || y.doneCheck - x.doneCheck });
             }
-        },
+        }
     }
 </script>
 
@@ -43,6 +50,14 @@
     .items-status {
         max-width: 600px;
         margin: 0 auto;
+    }
+
+    .list-enter-active, .list-leave-active {
+        transition: .5s ease all;
+    }
+    .list-enter, .list-leave-to {
+        opacity: 0;
+        transform: translateY(60px);
     }
 
 </style>

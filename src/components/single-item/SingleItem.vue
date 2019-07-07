@@ -76,7 +76,7 @@
         .todo-body {
 
             &:hover {
-                box-shadow: 0 0 6px 4px #eee;
+                box-shadow: 0 0 8px 8px #eee;
             }
             .pin {
                 position: absolute;
@@ -104,7 +104,9 @@
         }
 
         &.pinned {
-            border: 4px solid black;
+            .todo-body {
+                border-color: black;
+            }
         }
 
         .bottom-content {

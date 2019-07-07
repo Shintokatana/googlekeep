@@ -21,7 +21,7 @@ export default new Vuex.Store({
             },
             {
                 id: 1,
-                title: 'Title',
+                title: 'Title 2',
                 project: 'description',
                 doneCheck: false,
                 pinned: false,
