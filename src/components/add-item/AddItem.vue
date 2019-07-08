@@ -69,7 +69,7 @@
                 if (this.$refs.project.value) {
                     let lastItemID = 0;
                     if (this.$store.state.todos.length) {
-                        lastItemID = this.$store.state.todos[this.$store.state.todos.length -1].id;
+                        lastItemID = Math.max.apply(Math, this.$store.state.todos.map(function(x){return x.id})) + 1;
                     }
                     let newItemList = [];
                     this.$store.state.newItemList.forEach(function (element) {
@@ -77,7 +77,7 @@
                             newItemList.push(element)
                         }
                     });
-                    const newItem = {id: lastItemID + 1,
+                    const newItem = {id: lastItemID,
                         title: this.$refs.title.value,
                         project: this.$refs.project.value,
                         doneCheck: false,
