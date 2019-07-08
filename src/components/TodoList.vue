@@ -6,31 +6,60 @@
             <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
         </div>
         <div v-show="0 === todos.length">No Tasks Found</div>
-        <transition-group tag="div" class="items-wrapper" name="list">
-            <TodoSingleItem
-                    draggable="true"
-                    v-bind:todo="todo"
-                    v-for="todo in todos"
-                    :key="todo.id"
-                    v-bind:class="{pinned: todo.pinned}">
-            </TodoSingleItem>
-        </transition-group>
+        <draggable v-model="todos"
+                   v-bind="dragOptions"
+                   @start="drag = true"
+                   @end="drag = false">
+            <transition-group type="transition"
+                              tag="div"
+                              class="items-wrapper"
+                              :name="!drag ? 'flip-list' : null">
+                <TodoSingleItem
+                        draggable="true"
+                        v-bind:todo="todo"
+                        v-for="todo in todos"
+                        :key="todo.id"
+                        v-bind:class="{pinned: todo.pinned}">
+                </TodoSingleItem>
+            </transition-group>
+        </draggable>
     </div>
 </template>
 
 <script>
     import AddItem from './add-item/AddItem'
     import TodoSingleItem from './single-item/SingleItem'
+    import draggable from 'vuedraggable'
 
     export default {
         components: {
             AddItem,
-            TodoSingleItem
+            TodoSingleItem,
+            draggable
+        },
+        data() {
+            return {
+                drag: false
+            }
         },
         computed: {
-            todos: function () {
+            todos: {
+                get() {
                 let self = this;
                 return self.$store.state.todos.sort(function(x, y) { return y.pinned - x.pinned || y.doneCheck - x.doneCheck });
+                },
+                set(value) {
+                    let self = this;
+                    self.$store.commit('updateGlobalItems', value);
+                }
+            },
+            dragOptions() {
+                return {
+                    animation: 200,
+                    group: "description",
+                    disabled: false,
+                    ghostClass: "ghost"
+                }
             }
         }
     }
@@ -57,7 +86,28 @@
     }
     .list-enter, .list-leave-to {
         opacity: 0;
-        transform: translateY(60px);
+        transform: translateX(60px);
+    }
+
+    .flip-list-move {
+        transition: transform 0.5s;
+    }
+    .no-move {
+        transition: transform 0s;
+    }
+    .ghost {
+        opacity: 0.5;
+        background: #c8ebfb;
+        border-radius: 10px;
+    }
+    .list-group {
+        min-height: 20px;
+    }
+    .list-group-item {
+        cursor: move;
+    }
+    .list-group-item i {
+        cursor: pointer;
     }
 
 </style>

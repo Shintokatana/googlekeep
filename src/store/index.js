@@ -44,6 +44,45 @@ export default new Vuex.Store({
                 list: [
 
                 ]
+            },
+            {
+                id: 3,
+                title: 'Test 4',
+                project: 'Project C',
+                doneCheck: false,
+                pinned: false,
+                bgc: {
+                    backgroundColor: ''
+                },
+                list: [
+
+                ]
+            },
+            {
+                id: 4,
+                title: 'Test 5',
+                project: 'Project C',
+                doneCheck: false,
+                pinned: false,
+                bgc: {
+                    backgroundColor: ''
+                },
+                list: [
+
+                ]
+            },
+            {
+                id: 5,
+                title: 'Test 6',
+                project: 'Project C',
+                doneCheck: false,
+                pinned: false,
+                bgc: {
+                    backgroundColor: ''
+                },
+                list: [
+
+                ]
             }
         ],
         newItemList: [
@@ -56,6 +95,9 @@ export default new Vuex.Store({
         ]
     },
     mutations: {
+        updateGlobalItems(state, items) {
+            state.todos = items
+        },
         addGlobalItem(state, item) {
             state.todos.push(item);
         },

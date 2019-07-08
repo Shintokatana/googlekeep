@@ -123,6 +123,8 @@
         margin-top: 35px;
 
         .add-form {
+            box-shadow: 0 3px 5px rgba(0,0,0,0.20);
+            position: relative;
 
             &.pinned {
                 border-color: black;
@@ -130,7 +132,11 @@
             }
 
             .pin-wrapper {
+                position: absolute;
                 text-align: right;
+                left: auto;
+                top: 10px;
+                right: 10px;
 
                 .pin-item {
                     font-size: 20px;
@@ -139,7 +145,6 @@
 
             border-radius: 10px;
             border: 1px solid #eee;
-            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
             padding: 10px;
 
             input {
@@ -148,11 +153,17 @@
                 box-shadow: inherit;
                 color: #80868b;
                 border-radius: 10px;
-                padding: 10px 16px 10px 16px;
+                padding: 6px 16px;
                 width: 100%;
                 line-height: 1.25em;
-                border: 1px solid #eee;
+                border: none;
 
+                &#title {
+                    font-size: 18px;
+                }
+                &#description {
+                    font-size: 14px;
+                }
                 &:focus {
                     outline: none;
                 }

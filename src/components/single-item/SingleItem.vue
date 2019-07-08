@@ -4,10 +4,10 @@
             <a @click="pinItem(todo)" class="pin">Pin</a>
             <div class='content'>
                 <div class='title'>
-                    {{ todo.title }}
+                   {{todo.title}}
                 </div>
                 <div class='description'>
-                    {{ todo.project }}
+                    {{todo.project}}
                 </div>
                 <div class="list">
                     <singleItemRender v-bind:list="todo.list"></singleItemRender>
@@ -19,14 +19,18 @@
                 <a class="status-in-progress" v-show="!todo.doneCheck" @click.prevent="markDone(todo)">In Progress</a>
             </div>
         </div>
-        <color-picker
-            v-model="bgclr"
-            inline
-            shapes="circles"
-            swatch-size="24"
-            colors="material-light"
-        >
-        </color-picker>
+        <div class="more-wrapper">
+            <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
+            <div class="color-picker" v-show="colorPickerShow">
+            <color-picker
+                    v-model="bgclr"
+                    inline
+                    shapes="circles"
+                    swatch-size="24"
+                    colors="material-light">
+            </color-picker>
+        </div>
+        </div>
     </div>
 </template>
 
@@ -42,7 +46,8 @@
         },
         data() {
             return {
-                bgclr: ''
+                bgclr: '',
+                colorPickerShow: false
             }
         },
         watch: {
@@ -51,6 +56,9 @@
             }
         },
         methods: {
+            showColorPicker() {
+                this.colorPickerShow = !this.colorPickerShow;
+            },
             deleteTodo(todo) {
                 this.$store.commit('deleteGlobalItem', todo)
             },
@@ -144,8 +152,23 @@
             }
         }
 
-        flex: 0 1 20%;
-        max-width: 20%;
+        .more-wrapper {
+            position: relative;
+            .color-picker {
+                z-index: 10;
+                background-color: white;
+                border: 1px solid #eee;
+                box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                overflow: hidden;
+                position: absolute;
+                max-width: 200px;
+            }
+        }
+
+        flex: 0 1 auto;
+        width: auto;
+        min-width: 200px;
         margin: 0 15px 20px;
         transition: .4s ease all;
 
