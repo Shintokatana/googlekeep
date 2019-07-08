@@ -9,16 +9,20 @@
                 </div>
             </div>
             <div>
-                <input @click="formShow" placeholder="Insert Content" type="text" id="description" ref="project">
+                <textarea @click="formShow" name="description" id="description" ref="project" placeholder="Insert Content"></textarea>
                 <label for="description"></label>
             </div>
             <div v-show="formVisibility">
-                <div><a @click.prevent="listShow" href="#">Add List</a></div>
-                <div class="list-wrapper" v-if="listVisibility">
+                <div class="additionals">
+                    <a @click.prevent="listShow" href="#"><i class="fas fa-list-ul"></i></a>
+                    <a @click.prevent="colorShow" href="#"><i class="fas fa-palette"></i></a>
+                    <a @click.prevent="imageShow" href="#"><i class="far fa-image"></i></a>
+                </div>
+                <div class="list-wrapper" v-if="addItemStates.listVisibility">
                     <listItem></listItem>
                 </div>
-                <div class="more-handler"><a @click.prevent="colorShow" href="">Color Picker</a></div>
-                <div class="more-wrapper" v-if="colorVisibility">
+
+                <div class="more-wrapper" v-if="addItemStates.colorVisibility">
                     <color-picker
                             inline
                             shapes="circles"
@@ -27,9 +31,10 @@
                             v-model="backgroundColor"
                     ></color-picker>
                 </div>
-                <div class="image-wrapper"><a @click.prevent="imageShow" href="#">Image Choose</a></div>
-                <div v-if="imageVisibility">
+
+                <div v-if="addItemStates.imageVisibility">
                 </div>
+
                 <div class="bottom-content">
                     <div class="add-item"><a @click.prevent="addNewItem" href="#">Add Item</a></div>
                     <div class="close"><a @click.prevent="formClose" href="#">Dismiss</a></div>
@@ -57,6 +62,11 @@
                 backgroundColor: '',
                 pinStatus: false,
                 formVisibility: false,
+                addItemStates: {
+                    colorVisibility: false,
+                    listVisibility: false,
+                    imageVisibility: false,
+                },
                 colorVisibility: false,
                 listVisibility: false,
                 imageVisibility: false,
@@ -99,16 +109,13 @@
                 this.formVisibility = false
             },
             colorShow() {
-                this.colorVisibility = this.colorVisibility !== true
+                this.addItemStates.colorVisibility = this.addItemStates.colorVisibility !== true
             },
             imageShow() {
-                this.imageVisibility = this.imageVisibility !== true
+                this.addItemStates.imageVisibility = this.addItemStates.imageVisibility !== true
             },
             listShow() {
-                this.listVisibility = this.listVisibility !== true;
-                if (!this.listVisibility){
-                    this.$store.state.newItemList = [{checked: false, id: 0, visited: false, content: ''}];
-                }
+                this.addItemStates.listVisibility = this.addItemStates.listVisibility !== true
             },
             pinNewItem() {
                 this.pinStatus = this.pinStatus !== true
@@ -125,6 +132,15 @@
         .add-form {
             box-shadow: 0 3px 5px rgba(0,0,0,0.20);
             position: relative;
+
+            .additionals {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                a {
+                    margin: 0 7px;
+                }
+            }
 
             &.pinned {
                 border-color: black;
@@ -147,16 +163,18 @@
             border: 1px solid #eee;
             padding: 10px;
 
-            input {
+            input,
+            textarea{
                 box-sizing: border-box;
                 margin: 5px 0;
                 box-shadow: inherit;
-                color: #80868b;
+                color: black;
                 border-radius: 10px;
                 padding: 6px 16px;
                 width: 100%;
                 line-height: 1.25em;
                 border: none;
+                background-color: transparent;
 
                 &#title {
                     font-size: 18px;

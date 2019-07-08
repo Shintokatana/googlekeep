@@ -15,6 +15,9 @@ export default {
 </script>
 
 <style>
+  body {
+    hyphens: auto;
+  }
   * {
     transition: .4s ease all;
     font-family: 'Ubuntu', sans-serif;

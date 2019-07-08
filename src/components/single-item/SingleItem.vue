@@ -7,7 +7,7 @@
                    {{todo.title}}
                 </div>
                 <div class='description'>
-                    {{todo.project}}
+                    <p>{{todo.project}}</p>
                 </div>
                 <div class="list">
                     <singleItemRender v-bind:list="todo.list"></singleItemRender>
@@ -18,18 +18,19 @@
                 <a class="status-complete" v-show="todo.doneCheck" @click.prevent="markDone(todo)">Completed</a>
                 <a class="status-in-progress" v-show="!todo.doneCheck" @click.prevent="markDone(todo)">In Progress</a>
             </div>
-        </div>
-        <div class="more-wrapper">
-            <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
-            <div class="color-picker" v-show="colorPickerShow">
-            <color-picker
-                    v-model="bgclr"
-                    inline
-                    shapes="circles"
-                    swatch-size="24"
-                    colors="material-light">
-            </color-picker>
-        </div>
+            <div class="more-wrapper">
+                <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
+                <div class="color-picker" v-if="colorPickerShow">
+                    <color-picker
+                            v-model="bgclr"
+                            inline
+                            shapes="circles"
+                            swatch-size="18"
+                            colors="material-light"
+                            @input="showColorPicker">
+                    </color-picker>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -93,7 +94,7 @@
             }
 
             position: relative;
-            padding: 15px 0 0;
+            padding: 25px 0 0;
             border: 1px solid #eeeeee;
             border-radius: 10px;
 
@@ -153,7 +154,10 @@
         }
 
         .more-wrapper {
-            position: relative;
+            position: absolute;
+            left: 10px;
+            right: 20%;
+            top: 10px;
             .color-picker {
                 z-index: 10;
                 background-color: white;
@@ -169,6 +173,7 @@
         flex: 0 1 auto;
         width: auto;
         min-width: 200px;
+        max-width: 400px;
         margin: 0 15px 20px;
         transition: .4s ease all;
 
