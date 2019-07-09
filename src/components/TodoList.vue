@@ -4,8 +4,8 @@
         <div class="items-status">
             <p>Completed Tasks: {{todos.filter(todo => {return todo.doneCheck === true}).length}}</p>
             <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
+            <div v-show="0 === todos.length">No Tasks Found</div>
         </div>
-        <div v-show="0 === todos.length">No Tasks Found</div>
         <draggable v-model="todos"
                    v-bind="dragOptions"
                    @start="drag = true"

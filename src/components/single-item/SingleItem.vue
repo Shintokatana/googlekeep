@@ -2,10 +2,10 @@
     <div class="element todo-item">
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
+            <div v-if="todo.image.dataUrl" class="image-wrapper">
+                <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
+            </div>
             <div class='content'>
-                <div class="image-wrapper">
-                    <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
-                </div>
                 <div class='title'>
                    {{todo.title}}
                 </div>
@@ -17,21 +17,20 @@
                 </div>
             </div>
             <div class="bottom-content">
-                <a class="delete" @click.prevent="deleteTodo(todo)">Delete</a>
-                <a class="status-complete" v-show="todo.doneCheck" @click.prevent="markDone(todo)">Completed</a>
-                <a class="status-in-progress" v-show="!todo.doneCheck" @click.prevent="markDone(todo)">In Progress</a>
-            </div>
-            <div class="more-wrapper">
-                <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
-                <div class="color-picker" v-if="colorPickerShow">
-                    <color-picker
-                            v-model="bgclr"
-                            inline
-                            shapes="circles"
-                            swatch-size="18"
-                            colors="material-light"
-                            @input="showColorPicker">
-                    </color-picker>
+                <a class="delete" @click.prevent="deleteTodo(todo)"><i class="far fa-times-circle"></i></a>
+                <a class="status-in-progress" @click.prevent="markDone(todo)"><i class="fas fa-check"></i></a>
+                <div class="more-wrapper">
+                    <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
+                    <div class="color-picker" v-if="colorPickerShow">
+                        <color-picker
+                                v-model="bgclr"
+                                inline
+                                shapes="circles"
+                                swatch-size="18"
+                                colors="material-light"
+                                @input="showColorPicker">
+                        </color-picker>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,6 +85,21 @@
     }
     .todo-item {
 
+        .image-wrapper {
+            img {
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                max-width: 100%;
+            }
+        }
+
+        &:hover {
+            .bottom-content {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+
         .todo-body {
 
             &:hover {
@@ -98,17 +112,12 @@
             }
 
             position: relative;
-            padding: 25px 0 0;
+            padding: 0;
             border: 1px solid #eeeeee;
             border-radius: 10px;
 
             .content {
 
-                .image-wrapper {
-                    img {
-                        max-width: 100%;
-                    }
-                }
                 padding: 10px;
 
                 .title {
@@ -130,44 +139,35 @@
 
         .bottom-content {
             display: flex;
+            justify-content: flex-end;
             flex-direction: row;
-            justify-content: center;
+            padding: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .4s ease all;
+
+            a {
+                font-size: 12px;
+            }
 
             .delete {
-                border-bottom-left-radius: 10px;
-                background-color: rgb(255, 126, 151);
-                color: black;
             }
 
             .status {
                 &-complete,
                 &-in-progress {
-                    border-bottom-right-radius: 10px;
                 }
 
                 &-complete {
-                    color: white;
-                    background-color: rgb(56, 128, 52);
                 }
 
                 &-in-progress {
-                    background-color: rgb(255, 126, 151);
                 }
             }
 
-            > * {
-                padding: 10px 0;
-                flex: 0 1 50%;
-                max-width: 50%;
-                text-align: center;
-            }
         }
 
         .more-wrapper {
-            position: absolute;
-            left: 10px;
-            right: 20%;
-            top: 10px;
             .color-picker {
                 z-index: 10;
                 background-color: white;
@@ -176,7 +176,7 @@
                 border-radius: 10px;
                 overflow: hidden;
                 position: absolute;
-                max-width: 200px;
+                max-width: 220px;
                 width: 180px;
             }
         }
@@ -185,7 +185,7 @@
         width: auto;
         min-width: 200px;
         max-width: 400px;
-        margin: 0 15px 20px;
+        margin: 0 10px 20px;
         transition: .4s ease all;
 
     }
