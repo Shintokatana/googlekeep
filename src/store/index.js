@@ -8,6 +8,7 @@ export default new Vuex.Store({
         todos: [
             {
                 id: 0,
+                image: '',
                 title: 'Title 1',
                 project: 'Project A',
                 doneCheck: false,
@@ -21,6 +22,7 @@ export default new Vuex.Store({
             },
             {
                 id: 1,
+                image: '',
                 title: 'Title 2',
                 project: 'description',
                 doneCheck: false,
@@ -34,6 +36,7 @@ export default new Vuex.Store({
             },
             {
                 id: 2,
+                image: '',
                 title: 'Test 3',
                 project: 'Project C',
                 doneCheck: false,
@@ -47,6 +50,7 @@ export default new Vuex.Store({
             },
             {
                 id: 3,
+                image: '',
                 title: 'Test 4',
                 project: 'Project C',
                 doneCheck: false,
@@ -60,6 +64,7 @@ export default new Vuex.Store({
             },
             {
                 id: 4,
+                image: '',
                 title: 'Test 5',
                 project: 'Project C',
                 doneCheck: false,
@@ -73,6 +78,7 @@ export default new Vuex.Store({
             },
             {
                 id: 5,
+                image: '',
                 title: 'Test 6',
                 project: 'Project C',
                 doneCheck: false,

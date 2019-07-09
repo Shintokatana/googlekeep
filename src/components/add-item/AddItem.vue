@@ -2,6 +2,17 @@
     <div class="add-form-wrapper">
         <form autocomplete="off" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
             <div v-show="formVisibility">
+                <image-uploader
+                        :preview="true"
+                        :className="['fileinput', { 'fileinput--loaded': hasImage }]"
+                        capture="environment"
+                        :debug="0"
+                        doNotResize="gif"
+                        :autoRotate="true"
+                        outputFormat="verbose"
+                        @input="setImage"
+                >
+                </image-uploader>
                 <div class="pin-wrapper"><a @click.prevent="pinNewItem" href="#" class="pin-item"><i class="fas fa-map-pin"></i></a></div>
                 <div>
                     <input type="text" id="title" placeholder="Insert Title" ref="title">
@@ -12,32 +23,32 @@
                 <textarea @click="formShow" name="description" id="description" ref="project" placeholder="Insert Content"></textarea>
                 <label for="description"></label>
             </div>
-            <div v-show="formVisibility">
-                <div class="additionals">
-                    <a @click.prevent="listShow" href="#"><i class="fas fa-list-ul"></i></a>
-                    <a @click.prevent="colorShow" href="#"><i class="fas fa-palette"></i></a>
-                    <a @click.prevent="imageShow" href="#"><i class="far fa-image"></i></a>
-                </div>
+            <div v-show="formVisibility" class="additionals-wrapper">
                 <div class="list-wrapper" v-if="addItemStates.listVisibility">
                     <listItem></listItem>
                 </div>
-
-                <div class="more-wrapper" v-if="addItemStates.colorVisibility">
+                <div class="additionals">
+                    <div>
+                        <a @click.prevent="formClose" href="#"><i class="fas fa-times"></i></a>
+                    </div>
+                    <div>
+                        <label for="fileInput" slot="upload-label"><i class="far fa-image"></i></label>
+                        <a @click.prevent="listShow" href="#"><i class="fas fa-list-ul"></i></a>
+                        <a @click.prevent="colorShow" href="#"><i class="fas fa-palette"></i></a>
+                        <a @click.prevent="addNewItem" href="#"><i class="fas fa-check"></i></a>
+                    </div>
+                </div>
+                <div class="color-picker-wrapper" v-if="addItemStates.colorVisibility">
                     <color-picker
                             inline
                             shapes="circles"
-                            swatch-size="24"
+                            swatch-size="20"
                             colors="material-light"
+                            @input="colorShow"
                             v-model="backgroundColor"
                     ></color-picker>
                 </div>
-
                 <div v-if="addItemStates.imageVisibility">
-                </div>
-
-                <div class="bottom-content">
-                    <div class="add-item"><a @click.prevent="addNewItem" href="#">Add Item</a></div>
-                    <div class="close"><a @click.prevent="formClose" href="#">Dismiss</a></div>
                 </div>
             </div>
         </form>
@@ -71,7 +82,9 @@
                 listVisibility: false,
                 imageVisibility: false,
                 progress: null,
-                error: null
+                error: null,
+                hasImage: false,
+                image: null
             }
         },
         methods: {
@@ -87,20 +100,28 @@
                             newItemList.push(element)
                         }
                     });
-                    const newItem = {id: lastItemID,
+                    const newItem = {
+                        id: lastItemID,
+                        image: this.image,
                         title: this.$refs.title.value,
                         project: this.$refs.project.value,
                         doneCheck: false,
                         pinned: this.pinStatus,
                         bgc: {backgroundColor: this.backgroundColor},
-                        list: newItemList};
+                        list: newItemList
+                    };
                     this.$refs.title.value = '';
                     this.$refs.project.value = '';
                     this.backgroundColor = '';
+                    this.image = false;
                     this.$store.state.newItemList = [{checked: false, id: 0, visited: false, content: ''}];
                     this.$store.commit('addGlobalItem', newItem);
                     this.formVisibility = false
                 }
+            },
+            setImage: function(output) {
+                this.hasImage = true;
+                this.image = output;
             },
             formShow() {
                 this.formVisibility = true
@@ -124,7 +145,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
     .add-form-wrapper {
         margin-top: 35px;
@@ -133,12 +154,36 @@
             box-shadow: 0 3px 5px rgba(0,0,0,0.20);
             position: relative;
 
-            .additionals {
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-                a {
-                    margin: 0 7px;
+            .additionals-wrapper {
+
+                position: relative;
+
+                .additionals {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    a,
+                    label {
+                        color: black;
+                        cursor: pointer;
+                        margin: 0 7px;
+                    }
+                }
+
+                .list-wrapper {
+                    margin: 7px 0;
+                }
+
+                .color-picker-wrapper {
+                    position: absolute;
+                    bottom: 0;
+                    left: auto;
+                    right: 0;
+                    width: 200px;
+                    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+                    border-radius: 10px;
+                    overflow: hidden;
+                    border: 1px solid #eee;
                 }
             }
 
@@ -161,7 +206,7 @@
 
             border-radius: 10px;
             border: 1px solid #eee;
-            padding: 10px;
+            padding: 15px;
 
             input,
             textarea{
@@ -175,6 +220,9 @@
                 line-height: 1.25em;
                 border: none;
                 background-color: transparent;
+                &::placeholder {
+                    color: black;
+                }
 
                 &#title {
                     font-size: 18px;
@@ -190,6 +238,10 @@
             max-width: 650px;
             margin: 0 auto;
         }
+    }
+
+    #fileInput {
+        display: none;
     }
 
 </style>

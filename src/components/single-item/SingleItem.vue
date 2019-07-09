@@ -3,6 +3,9 @@
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
             <div class='content'>
+                <div class="image-wrapper">
+                    <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
+                </div>
                 <div class='title'>
                    {{todo.title}}
                 </div>
@@ -37,6 +40,7 @@
 
 <script>
     import singleItemRender from './singleItemList'
+
     export default {
         name: "TodoSingleItem",
         components: {
@@ -99,6 +103,12 @@
             border-radius: 10px;
 
             .content {
+
+                .image-wrapper {
+                    img {
+                        max-width: 100%;
+                    }
+                }
                 padding: 10px;
 
                 .title {
@@ -167,6 +177,7 @@
                 overflow: hidden;
                 position: absolute;
                 max-width: 200px;
+                width: 180px;
             }
         }
 
