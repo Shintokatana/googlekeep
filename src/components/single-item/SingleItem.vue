@@ -2,7 +2,7 @@
     <div class="element todo-item">
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
-            <div v-if="todo.image.dataUrl" class="image-wrapper">
+            <div v-if="todo.image" class="image-wrapper">
                 <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
             </div>
             <div class='content'>
@@ -13,12 +13,12 @@
                     <p>{{todo.project}}</p>
                 </div>
                 <div class="list">
-                    <singleItemRender v-bind:list="todo.list"></singleItemRender>
+                    <singleItemListRender v-bind:id="todo.id"></singleItemListRender>
                 </div>
             </div>
             <div class="bottom-content">
-                <a class="delete" @click.prevent="deleteTodo(todo)"><i class="far fa-times-circle"></i></a>
-                <a class="status-in-progress" @click.prevent="markDone(todo)"><i class="fas fa-check"></i></a>
+                <div><a class="delete" @click.prevent="deleteTodo(todo)"><i class="far fa-times-circle"></i></a></div>
+                <div><a class="status-in-progress" @click.prevent="markDone(todo)"><i class="fas fa-check"></i></a></div>
                 <div class="more-wrapper">
                     <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
                     <div class="color-picker" v-if="colorPickerShow">
@@ -38,12 +38,12 @@
 </template>
 
 <script>
-    import singleItemRender from './singleItemList'
+    import singleItemListRender from './singleItemList'
 
     export default {
         name: "TodoSingleItem",
         components: {
-            singleItemRender
+            singleItemListRender
         },
         props: {
             todo: Object
@@ -94,10 +94,20 @@
         }
 
         &:hover {
-            .bottom-content {
+            .bottom-content,
+            .pin {
                 visibility: visible;
                 opacity: 1;
             }
+        }
+
+        .pin {
+            opacity: 0;
+            visibility: hidden;
+            transition: .4s ease all;
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
 
         .todo-body {
@@ -105,11 +115,7 @@
             &:hover {
                 box-shadow: 0 0 8px 8px #eee;
             }
-            .pin {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-            }
+
 
             position: relative;
             padding: 0;
@@ -146,7 +152,11 @@
             visibility: hidden;
             transition: .4s ease all;
 
+            > div {
+                margin: 0 5px;
+            }
             a {
+                color: black;
                 font-size: 12px;
             }
 
