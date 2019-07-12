@@ -1,11 +1,7 @@
 <template>
     <div>
         <AddItem></AddItem>
-        <div class="items-status">
-            <p>Completed Tasks: {{todos.filter(todo => {return todo.doneCheck === true}).length}}</p>
-            <p>Pending Tasks: {{todos.filter(todo => {return todo.doneCheck === false}).length}}</p>
-            <div v-show="0 === todos.length">No Tasks Found</div>
-        </div>
+        <itemStatus :todos="todos"></itemStatus>
         <draggable v-model="todos"
                    v-bind="dragOptions"
                    @start="drag = true"
@@ -30,11 +26,13 @@
     import AddItem from './add-item/AddItem'
     import TodoSingleItem from './single-item/SingleItem'
     import draggable from 'vuedraggable'
+    import itemStatus from './itemStatus'
 
     export default {
         components: {
             AddItem,
             TodoSingleItem,
+            itemStatus,
             draggable
         },
         data() {
@@ -74,11 +72,6 @@
         flex-direction: row;
         justify-content: flex-start;
         flex-wrap: wrap;
-    }
-
-    .items-status {
-        max-width: 600px;
-        margin: 0 auto;
     }
 
     .list-enter-active, .list-leave-active {

@@ -1,17 +1,14 @@
 <template>
-    <div class="element todo-item">
+    <div class="element todo-item" :class="{selected: checkStatus}">
+        <selectItem :id="todo.id" class="item-check"></selectItem>
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
             <div v-if="todo.image" class="image-wrapper">
                 <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
             </div>
             <div class='content'>
-                <div class='title'>
-                   {{todo.title}}
-                </div>
-                <div class='description'>
-                    <p>{{todo.project}}</p>
-                </div>
+                <div class='title'>{{todo.title}}</div>
+                <div class='description'><p>{{todo.project}}</p></div>
                 <div class="list">
                     <singleItemListRender v-bind:id="todo.id"></singleItemListRender>
                 </div>
@@ -39,11 +36,13 @@
 
 <script>
     import singleItemListRender from './singleItemList'
+    import selectItem from './selectItem'
 
     export default {
         name: "TodoSingleItem",
         components: {
-            singleItemListRender
+            singleItemListRender,
+            selectItem
         },
         props: {
             todo: Object
@@ -52,6 +51,11 @@
             return {
                 bgclr: '',
                 colorPickerShow: false
+            }
+        },
+        computed: {
+            checkStatus: function () {
+                return this.$store.state.selectedItems.includes(this.todo.id)
             }
         },
         watch: {
@@ -85,6 +89,31 @@
     }
     .todo-item {
 
+        &.selected {
+            box-shadow: 0 0 5px 2px black;
+            .item-check {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            &:hover {
+                .todo-body {
+                    box-shadow: 0 0 5px 2px black;
+                }
+            }
+        }
+
+        .item-check {
+            z-index: 10;
+            visibility: hidden;
+            opacity: 0;
+            transition: .4s ease all;
+            position: absolute;
+            top: -11px;
+            left: -11px;
+            cursor: pointer;
+        }
+
         .image-wrapper {
             img {
                 border-top-left-radius: 10px;
@@ -94,6 +123,7 @@
         }
 
         &:hover {
+            .item-check,
             .bottom-content,
             .pin {
                 visibility: visible;
@@ -193,10 +223,12 @@
 
         flex: 0 1 auto;
         width: auto;
-        min-width: 200px;
+        min-width: 250px;
         max-width: 400px;
         margin: 0 10px 20px;
         transition: .4s ease all;
+        position: relative;
+        border-radius: 10px;
 
     }
 </style>

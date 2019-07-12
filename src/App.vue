@@ -11,6 +11,11 @@ export default {
   components: {
     TodoList
   },
+  computed: {
+    checked: function () {
+      return this.$store.selectedItems;
+    }
+  }
 }
 </script>
 

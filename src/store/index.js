@@ -86,9 +86,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [
-
-                ]
+                list: [{"id":0,"checked":true,"visited":true,"content":"List 1"},{"id":1,"visited":true,"content":"List 2","checked":true}]
             }
         ],
         newItemList: [
@@ -98,6 +96,9 @@ export default new Vuex.Store({
                 visited: false,
                 content: ''
             }
+        ],
+        selectedItems: [
+
         ]
     },
     mutations: {
@@ -123,5 +124,13 @@ export default new Vuex.Store({
             const elementPos = state.todos.map(function(x) {return x.id; }).indexOf(item.id);
             state.todos[elementPos].bgc.backgroundColor = item.color;
         },
+        updateSelectedItems(state, id) {
+            if (state.selectedItems.includes(id) ) {
+                let index = state.selectedItems.indexOf(id);
+                state.selectedItems.splice(index, 1);
+            } else {
+                state.selectedItems.push(id)
+            }
+        }
     }
-});
+})

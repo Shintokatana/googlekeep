@@ -1,18 +1,10 @@
 <template>
     <div class="add-form-wrapper">
         <form autocomplete="off" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
+            <div v-if="formVisibility" class="image-wrapper">
+                <img v-if="image" v-bind:src="image.dataUrl" v-bind:alt="image.dataUrl">
+            </div>
             <div v-show="formVisibility">
-                <image-uploader
-                        :preview="true"
-                        :className="['fileinput', { 'fileinput--loaded': hasImage }]"
-                        capture="environment"
-                        :debug="0"
-                        doNotResize="gif"
-                        :autoRotate="true"
-                        outputFormat="verbose"
-                        @input="setImage"
-                >
-                </image-uploader>
                 <div class="pin-wrapper"><a @click.prevent="pinNewItem" href="#" class="pin-item"><i class="fas fa-map-pin"></i></a></div>
                 <div>
                     <input type="text" id="title" placeholder="Insert Title" ref="title">
@@ -48,8 +40,17 @@
                             v-model="backgroundColor"
                     ></color-picker>
                 </div>
-                <div v-if="addItemStates.imageVisibility">
-                </div>
+                <image-uploader
+                        :preview="false"
+                        :className="['fileinput', { 'fileinput--loaded': hasImage }]"
+                        capture="environment"
+                        :debug="0"
+                        doNotResize="gif"
+                        :autoRotate="true"
+                        outputFormat="verbose"
+                        @input="setImage"
+                >
+                </image-uploader>
             </div>
         </form>
     </div>
@@ -78,9 +79,6 @@
                     listVisibility: false,
                     imageVisibility: false,
                 },
-                colorVisibility: false,
-                listVisibility: false,
-                imageVisibility: false,
                 progress: null,
                 error: null,
                 hasImage: false,
@@ -132,9 +130,6 @@
             colorShow() {
                 this.addItemStates.colorVisibility = this.addItemStates.colorVisibility !== true
             },
-            imageShow() {
-                this.addItemStates.imageVisibility = this.addItemStates.imageVisibility !== true
-            },
             listShow() {
                 this.addItemStates.listVisibility = this.addItemStates.listVisibility !== true
             },
@@ -153,6 +148,13 @@
         .add-form {
             box-shadow: 0 3px 5px rgba(0,0,0,0.20);
             position: relative;
+
+            .image-wrapper {
+                width: 100%;
+                img {
+                    max-width: 100%;
+                }
+            }
 
             .additionals-wrapper {
 
@@ -200,6 +202,7 @@
                 right: 10px;
 
                 .pin-item {
+                    color: black;
                     font-size: 20px;
                 }
             }
