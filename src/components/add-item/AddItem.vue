@@ -1,6 +1,6 @@
 <template>
     <div class="add-form-wrapper">
-        <form autocomplete="off" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
+        <form v-click-outside="formClose" autocomplete="off" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
             <div v-if="formVisibility" class="image-wrapper">
                 <img v-if="image" v-bind:src="image.dataUrl" v-bind:alt="image.dataUrl">
             </div>
@@ -12,7 +12,14 @@
                 </div>
             </div>
             <div>
-                <textarea @click="formShow" name="description" id="description" ref="project" placeholder="Insert Content"></textarea>
+                <textarea rows="1"
+                          @click="formShow"
+                          name="description"
+                          id="description"
+                          ref="project"
+                          placeholder="Insert Content"
+                          @input="textareaResize">
+                </textarea>
                 <label for="description"></label>
             </div>
             <div v-show="formVisibility" class="additionals-wrapper">
@@ -58,6 +65,7 @@
 
 <script>
     import listItem from './addListItem'
+    import ClickOutside from 'vue-click-outside'
 
     export default {
         name: "AddItem",
@@ -125,6 +133,10 @@
                 this.formVisibility = true
             },
             formClose() {
+                this.addNewItem();
+                if (this.addItemStates.listVisibility) this.listShow();
+                if (this.addItemStates.colorVisibility) this.colorShow();
+                this.image = null;
                 this.formVisibility = false
             },
             colorShow() {
@@ -135,7 +147,13 @@
             },
             pinNewItem() {
                 this.pinStatus = this.pinStatus !== true
+            },
+            textareaResize() {
+                this.$refs.project.style.minHeight = this.$refs.project.scrollHeight + 'px';
             }
+        },
+        directives: {
+            ClickOutside
         }
     }
 </script>
@@ -211,6 +229,11 @@
             border: 1px solid #eee;
             padding: 15px;
 
+            textarea {
+                overflow: hidden;
+                resize: none;
+                height: auto;
+            }
             input,
             textarea{
                 box-sizing: border-box;

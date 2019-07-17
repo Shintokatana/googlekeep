@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import Vuex from "vuex";
 
 Vue.use(Vuex);
@@ -16,9 +16,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [
-
-                ]
+                list: []
             },
             {
                 id: 1,
@@ -30,9 +28,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [
-
-                ]
+                list: []
             },
             {
                 id: 2,
@@ -44,9 +40,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [
-
-                ]
+                list: []
             },
             {
                 id: 3,
@@ -58,9 +52,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [
-
-                ]
+                list: []
             },
             {
                 id: 4,
@@ -72,9 +64,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [
-
-                ]
+                list: []
             },
             {
                 id: 5,
@@ -86,7 +76,7 @@ export default new Vuex.Store({
                 bgc: {
                     backgroundColor: ''
                 },
-                list: [{"id":0,"checked":true,"visited":true,"content":"List 1"},{"id":1,"visited":true,"content":"List 2","checked":true}]
+                list: []
             }
         ],
         newItemList: [
@@ -108,9 +98,11 @@ export default new Vuex.Store({
         addGlobalItem(state, item) {
             state.todos.push(item);
         },
-        deleteGlobalItem(state, item) {
-            const currIndex = state.todos.indexOf(item);
-            state.todos.splice(currIndex, 1)
+        deleteGlobalItem(state, id) {
+            id.forEach(function (el) {
+                state.todos = state.todos.filter(x => x.id !== el)
+            });
+            state.selectedItems = []
         },
         pinGlobalItem(state, item) {
             const currIndex = state.todos.indexOf(item);
@@ -131,6 +123,17 @@ export default new Vuex.Store({
             } else {
                 state.selectedItems.push(id)
             }
+        },
+        searchedItems(state, items) {
+            state.todos = items
+        },
+    },
+    actions: {
+        deleteGlobalItem({commit}, array) {
+            commit('deleteGlobalItem', array)
+        },
+        updateSelectedItems({commit}, id) {
+            commit('updateSelectedItems', id)
         }
     }
 })

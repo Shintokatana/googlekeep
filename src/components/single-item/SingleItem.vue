@@ -1,5 +1,5 @@
 <template>
-    <div class="element todo-item" :class="{selected: checkStatus}">
+    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned}">
         <selectItem :id="todo.id" class="item-check"></selectItem>
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="bottom-content">
-                <div><a class="delete" @click.prevent="deleteTodo(todo)"><i class="far fa-times-circle"></i></a></div>
+                <div><a class="delete" @click.prevent="deleteTodo([todo.id])"><i class="far fa-times-circle"></i></a></div>
                 <div><a class="status-in-progress" @click.prevent="markDone(todo)"><i class="fas fa-check"></i></a></div>
                 <div class="more-wrapper">
                     <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
@@ -67,8 +67,8 @@
             showColorPicker() {
                 this.colorPickerShow = !this.colorPickerShow;
             },
-            deleteTodo(todo) {
-                this.$store.commit('deleteGlobalItem', todo)
+            deleteTodo(id) {
+                this.$store.commit('deleteGlobalItem', id)
             },
             markDone(todo) {
                 this.$store.commit('markDone', todo)
@@ -90,7 +90,9 @@
     .todo-item {
 
         &.selected {
-            box-shadow: 0 0 5px 2px black;
+            .todo-body {
+                box-shadow: 0 0 5px 2px black;
+            }
             .item-check {
                 visibility: visible;
                 opacity: 1;

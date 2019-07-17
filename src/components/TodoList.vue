@@ -1,5 +1,7 @@
 <template>
     <div>
+        <itemStatusChange></itemStatusChange>
+        <itemSearch></itemSearch>
         <AddItem></AddItem>
         <itemStatus :todos="todos"></itemStatus>
         <draggable v-model="todos"
@@ -14,8 +16,7 @@
                         draggable="true"
                         v-bind:todo="todo"
                         v-for="todo in todos"
-                        :key="todo.id"
-                        v-bind:class="{pinned: todo.pinned}">
+                        :key="todo.id">
                 </TodoSingleItem>
             </transition-group>
         </draggable>
@@ -27,13 +28,17 @@
     import TodoSingleItem from './single-item/SingleItem'
     import draggable from 'vuedraggable'
     import itemStatus from './itemStatus'
+    import itemStatusChange from './itemsStatusChange'
+    import itemSearch from './itemsSearch'
 
     export default {
         components: {
             AddItem,
             TodoSingleItem,
             itemStatus,
-            draggable
+            draggable,
+            itemStatusChange,
+            itemSearch
         },
         data() {
             return {
@@ -43,8 +48,12 @@
         computed: {
             todos: {
                 get() {
-                let self = this;
-                return self.$store.state.todos.sort(function(x, y) { return y.pinned - x.pinned || y.doneCheck - x.doneCheck });
+                    let self = this;
+                    if (self.$store.state.searchedItems) {
+                        return self.$store.state.searchedItems
+                    } else {
+                        return self.$store.state.todos.sort(function(x, y) { return y.pinned - x.pinned || y.doneCheck - x.doneCheck });
+                    }
                 },
                 set(value) {
                     let self = this;
