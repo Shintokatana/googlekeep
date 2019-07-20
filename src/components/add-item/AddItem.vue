@@ -1,5 +1,5 @@
 <template>
-    <div class="add-form-wrapper">
+    <div class="add-form-wrapper" v-if="!searchActive">
         <form v-click-outside="formClose" autocomplete="off" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
             <div v-if="formVisibility" class="image-wrapper">
                 <img v-if="image" v-bind:src="image.dataUrl" v-bind:alt="image.dataUrl">
@@ -7,7 +7,7 @@
             <div v-show="formVisibility">
                 <div class="pin-wrapper"><a @click.prevent="pinNewItem" href="#" class="pin-item"><i class="fas fa-map-pin"></i></a></div>
                 <div>
-                    <input type="text" id="title" placeholder="Insert Title" ref="title">
+                    <input v-on:keydown.enter.prevent="titleEnter" type="text" id="title" placeholder="Insert Title" ref="title">
                     <label for="title"></label>
                 </div>
             </div>
@@ -72,6 +72,9 @@
         computed: {
             todos() {
                 return this.$store.state.todos
+            },
+            searchActive() {
+                return this.$store.state.searchActive
             }
         },
         components: {
@@ -150,6 +153,9 @@
             },
             textareaResize() {
                 this.$refs.project.style.minHeight = this.$refs.project.scrollHeight + 'px';
+            },
+            titleEnter() {
+                document.getElementById('description').focus()
             }
         },
         directives: {

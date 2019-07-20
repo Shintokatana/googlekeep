@@ -7,8 +7,8 @@
                 <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
             </div>
             <div class='content'>
-                <div class='title'>{{todo.title}}</div>
-                <div class='description'><p>{{todo.project}}</p></div>
+                <div class="title">{{todo.title}}</div>
+                <div class="description"><p>{{todo.project}}</p></div>
                 <div class="list">
                     <singleItemListRender v-bind:id="todo.id"></singleItemListRender>
                 </div>
@@ -30,6 +30,7 @@
                     </div>
                 </div>
             </div>
+            <singleLinkItemArea v-bind:item="todo"></singleLinkItemArea>
         </div>
     </div>
 </template>
@@ -37,12 +38,14 @@
 <script>
     import singleItemListRender from './singleItemList'
     import selectItem from './selectItem'
+    import singleLinkItemArea from './singleItemLinkArea'
 
     export default {
         name: "TodoSingleItem",
         components: {
             singleItemListRender,
-            selectItem
+            selectItem,
+            singleLinkItemArea
         },
         props: {
             todo: Object

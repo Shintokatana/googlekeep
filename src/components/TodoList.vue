@@ -25,7 +25,7 @@
 
 <script>
     import AddItem from './add-item/AddItem'
-    import TodoSingleItem from './single-item/SingleItem'
+    import TodoSingleItem from './single-item/singleItem'
     import draggable from 'vuedraggable'
     import itemStatus from './itemStatus'
     import itemStatusChange from './itemsStatusChange'

@@ -20,11 +20,17 @@ export default {
 </script>
 
 <style>
+  #app {
+    margin-top: 10px;
+  }
   body {
     hyphens: auto;
   }
   * {
     transition: .4s ease all;
     font-family: 'Ubuntu', sans-serif;
+  }
+  *:visited {
+    color: inherit;
   }
 </style>

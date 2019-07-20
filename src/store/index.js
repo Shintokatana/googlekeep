@@ -34,7 +34,7 @@ export default new Vuex.Store({
                 id: 2,
                 image: '',
                 title: 'Test 3',
-                project: 'Project C',
+                project: 'https://google.com',
                 doneCheck: false,
                 pinned: false,
                 bgc: {
@@ -89,13 +89,15 @@ export default new Vuex.Store({
         ],
         selectedItems: [
 
-        ]
+        ],
+        searchActive: false
     },
     mutations: {
         updateGlobalItems(state, items) {
             state.todos = items
         },
         addGlobalItem(state, item) {
+            state.search = '';
             state.todos.push(item);
         },
         deleteGlobalItem(state, id) {
@@ -124,9 +126,9 @@ export default new Vuex.Store({
                 state.selectedItems.push(id)
             }
         },
-        searchedItems(state, items) {
-            state.todos = items
-        },
+        searchActive(state, status) {
+            state.searchActive = status
+        }
     },
     actions: {
         deleteGlobalItem({commit}, array) {
