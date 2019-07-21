@@ -29,6 +29,7 @@ export default {
   * {
     transition: .4s ease all;
     font-family: 'Ubuntu', sans-serif;
+    text-decoration: none;
   }
   *:visited {
     color: inherit;

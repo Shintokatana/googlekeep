@@ -156,6 +156,7 @@
             padding: 0;
             border: 1px solid #eeeeee;
             border-radius: 10px;
+            overflow: hidden;
 
             .content {
 
@@ -220,9 +221,13 @@
                 box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
                 border-radius: 10px;
                 overflow: hidden;
+                right: 0;
+                bottom: 0;
                 position: absolute;
+                top: auto;
                 max-width: 220px;
                 width: 180px;
+                left: auto;
             }
         }
 
