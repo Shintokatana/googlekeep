@@ -234,7 +234,7 @@
         flex: 0 1 auto;
         width: auto;
         min-width: 250px;
-        max-width: 400px;
+        max-width: 250px;
         margin: 0 10px 20px;
         transition: .4s ease all;
         position: relative;

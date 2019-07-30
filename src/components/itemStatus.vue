@@ -17,7 +17,7 @@
 
     .items-status {
         max-width: 600px;
-        margin: 0 auto;
+        margin: 40px auto 0;
     }
 
 </style>

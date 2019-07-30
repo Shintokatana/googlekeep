@@ -1,8 +1,11 @@
 <template>
     <div class="add-form-wrapper" v-if="!searchActive">
-        <form v-click-outside="formClose" autocomplete="off" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
+        <form autocomplete="off" v-click-outside="formClose" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
             <div v-if="formVisibility" class="image-wrapper">
                 <img v-if="image" v-bind:src="image.dataUrl" v-bind:alt="image.dataUrl">
+            </div>
+            <div v-if="addItemStates.drawVisibility">
+                <itemDrawing></itemDrawing>
             </div>
             <div v-show="formVisibility">
                 <div class="pin-wrapper"><a @click.prevent="pinNewItem" href="#" class="pin-item"><i class="fas fa-map-pin"></i></a></div>
@@ -35,6 +38,7 @@
                         <a @click.prevent="listShow" href="#"><i class="fas fa-list-ul"></i></a>
                         <a @click.prevent="colorShow" href="#"><i class="fas fa-palette"></i></a>
                         <a @click.prevent="addNewItem" href="#"><i class="fas fa-check"></i></a>
+                        <a @click.prevent="drawShow" href=""><i class="fas fa-pencil-ruler"></i></a>
                     </div>
                 </div>
                 <div class="color-picker-wrapper" v-if="addItemStates.colorVisibility">
@@ -65,6 +69,7 @@
 
 <script>
     import listItem from './addListItem'
+    import itemDrawing from './addItemDrawing'
     import ClickOutside from 'vue-click-outside'
 
     export default {
@@ -78,7 +83,8 @@
             }
         },
         components: {
-            listItem
+            listItem,
+            itemDrawing
         },
         data() {
             return {
@@ -89,6 +95,7 @@
                     colorVisibility: false,
                     listVisibility: false,
                     imageVisibility: false,
+                    drawVisibility: false
                 },
                 progress: null,
                 error: null,
@@ -156,6 +163,9 @@
             },
             titleEnter() {
                 document.getElementById('description').focus()
+            },
+            drawShow() {
+                this.addItemStates.drawVisibility = this.addItemStates.drawVisibility !== true
             }
         },
         directives: {
@@ -165,6 +175,11 @@
 </script>
 
 <style lang="scss">
+
+    .testest {
+        max-width: 640px;
+        margin: 0 auto;
+    }
 
     .add-form-wrapper {
         margin-top: 35px;

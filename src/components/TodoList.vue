@@ -1,5 +1,6 @@
 <template>
     <div>
+        <keepHeader></keepHeader>
         <itemStatusChange></itemStatusChange>
         <itemSearch></itemSearch>
         <AddItem></AddItem>
@@ -20,6 +21,7 @@
                 </TodoSingleItem>
             </transition-group>
         </draggable>
+        <keepFooter></keepFooter>
     </div>
 </template>
 
@@ -30,6 +32,8 @@
     import itemStatus from './itemStatus'
     import itemStatusChange from './itemsStatusChange'
     import itemSearch from './itemsSearch'
+    import keepHeader from './keepHeader'
+    import keepFooter from './keepFooter'
 
     export default {
         components: {
@@ -38,7 +42,9 @@
             itemStatus,
             draggable,
             itemStatusChange,
-            itemSearch
+            itemSearch,
+            keepHeader,
+            keepFooter
         },
         data() {
             return {

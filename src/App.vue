@@ -21,14 +21,13 @@ export default {
 
 <style>
   #app {
-    margin-top: 10px;
   }
   body {
     hyphens: auto;
   }
   * {
     transition: .4s ease all;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-decoration: none;
   }
   *:visited {

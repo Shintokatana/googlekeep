@@ -5,12 +5,14 @@ import router from './router'
 import Swatch from 'vue-swatches'
 import ImageUploader from 'vue-image-upload-resize'
 import VueLodash from 'vue-lodash'
+import Vuetify from 'vuetify'
 
 /**
  * Global Components Registration
  */
 Vue.component('color-picker', Swatch);
 Vue.use(ImageUploader);
+Vue.use(Vuetify);
 
 const options = { name: 'lodash' };
 Vue.use(VueLodash, options);
