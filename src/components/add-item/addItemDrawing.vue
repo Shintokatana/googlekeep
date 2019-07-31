@@ -1,16 +1,36 @@
 <template>
-    <div class="image-draw-wrap" :class="{done: drawStatus}">
+    <div class="image-draw-wrap" :class="{done: drawStatus}" data-app="drawApp">
         <canvas ref="canvas" id='drawing-pad' width='620' height='300' v-show="!drawStatus"></canvas>
-        <img ref="img" src="" alt="" id='canvas-image' v-show="drawStatus">
+        <div class="line-width-wrap" v-show="visibilityOptions.lineVisibility">
+            <v-slider
+                    v-model="lineWidth"
+                    thumb-label
+                    max="10"
+                    min="1"
+                    background-color="transparent"
+                    color="#42b883">
+            </v-slider>
+        </div>
+        <div class="color-wrap" v-show="visibilityOptions.colorVisibility">
+            <v-color-picker
+                    v-model="color"
+                    hide-inputs
+                    hide-canvas>
+            </v-color-picker>
+        </div>
         <div class="draw-controls">
             <a @click.prevent="resetCanvas" href="#"><i class="far fa-trash-alt"></i></a>
             <a @click.prevent="saveImage" href="#"><i class="far fa-save"></i></a>
             <a @click.prevent="editCanvas" href="#"><i class="fas fa-edit"></i></a>
+            <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
+            <a @click.prevent="showWidthController" href="#"><i class="fas fa-slash"></i></a>
         </div>
     </div>
 </template>
 
 <script>
+    import ClickOutside from 'vue-click-outside'
+
     export default {
         name: "addItemDrawing",
         data() {
@@ -21,7 +41,25 @@
                 startX: 0,
                 startY: 0,
                 points: [],
-                drawStatus: false
+                drawStatus: false,
+                lineWidth: 1,
+                color: '',
+                visibilityOptions: {
+                    lineVisibility: false,
+                    colorVisibility: false
+                }
+            }
+        },
+        computed: {
+            image: {
+                get() {
+                    let self = this;
+                    return self.$store.state.newItemImage
+                },
+                set(value) {
+                    let self = this;
+                    self.$store.commit('addNewItemImage', value);
+                }
             }
         },
         mounted(){
@@ -57,9 +95,9 @@
                     vm.context.beginPath();
                     vm.context.moveTo(vm.startX, vm.startY);
                     vm.context.lineTo(x, y);
-                    vm.context.lineWidth = 1;
+                    vm.context.lineWidth = this.lineWidth;
                     vm.context.lineCap = 'round';
-                    vm.context.strokeStyle = "rgba(0,0,0,1)";
+                    vm.context.strokeStyle = this.color;
                     vm.context.stroke();
 
                     vm.startX = x;
@@ -79,23 +117,38 @@
                 }
             },
             resetCanvas() {
+                this.visibilityOptions.lineVisibility = false;
+                this.visibilityOptions.colorVisibility = false;
                 let vm = this;
                 vm.canvas.width = 620;
                 vm.points.length = 0;
                 vm.drawStatus = false;
             },
             saveImage() {
+                this.visibilityOptions.lineVisibility = false;
+                this.visibilityOptions.colorVisibility= false;
                 let vm = this,
-                    img = vm.$refs.img;
-                img.src = vm.canvas.toDataURL();
+                imgSrc = vm.canvas.toDataURL();
                 this.drawStatus = true;
-                this.$store.commit('addNewItemDrawing', img)
+                this.image = {dataUrl: imgSrc}
             },
             editCanvas() {
+                this.image = {};
                 if (this.drawStatus === true ) {
                     this.drawStatus = false
                 }
+            },
+            showWidthController() {
+                this.visibilityOptions.lineVisibility = true !== this.visibilityOptions.lineVisibility;
+                this.visibilityOptions.colorVisibility = false
+            },
+            showColorPicker() {
+                this.visibilityOptions.colorVisibility = true !== this.visibilityOptions.colorVisibility;
+                this.visibilityOptions.lineVisibility = false
             }
+        },
+        directives: {
+            ClickOutside
         }
     }
 </script>
@@ -103,12 +156,35 @@
 <style scoped lang="scss">
 
     .image-draw-wrap {
+        position: relative;
         border: 1px solid #eee;
         border-radius: 10px;
         overflow: hidden;
 
+        .draw-controls {
+            display: block;
+            padding: 10px;
+            a {
+                font-size: 16px;
+                color: black;
+                margin-right: 10px;
+            }
+        }
+
+        .line-width-wrap,
+        .color-wrap {
+            display: block;
+            position: absolute;
+            bottom: 40px;
+            right: auto;
+            left: 10px;
+            top: auto;
+            width: 50%;
+        }
+
         &.done {
-            border-color: black;
+            border-color: #eee;
+            box-shadow: 0 0 5px 5px #eeeeee;
         }
     }
 

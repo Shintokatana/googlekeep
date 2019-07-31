@@ -130,7 +130,7 @@ export default new Vuex.Store({
         searchActive(state, status) {
             state.searchActive = status
         },
-        addNewItemDrawing(state, src) {
+        addNewItemImage(state, src) {
             state.newItemImage = src
         }
     },

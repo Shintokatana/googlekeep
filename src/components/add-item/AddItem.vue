@@ -15,15 +15,17 @@
                 </div>
             </div>
             <div>
-                <textarea rows="1"
-                          @click="formShow"
-                          name="description"
-                          id="description"
-                          ref="project"
-                          placeholder="Insert Content"
-                          @input="textareaResize">
-                </textarea>
-                <label for="description"></label>
+                <v-textarea
+                    @click="formShow"
+                    id="description"
+                    v-model="message"
+                    no-resize
+                    counter
+                    placeholder="Insert Content"
+                    rows="1"
+                    row-height=24
+                    auto-grow>
+                </v-textarea>
             </div>
             <div v-show="formVisibility" class="additionals-wrapper">
                 <div class="list-wrapper" v-if="addItemStates.listVisibility">
@@ -33,8 +35,8 @@
                     <div>
                         <a @click.prevent="formClose" href="#"><i class="fas fa-times"></i></a>
                     </div>
-                    <div>
-                        <label for="fileInput" slot="upload-label"><i class="far fa-image"></i></label>
+                    <div style="display: flex">
+                        <itemImage></itemImage>
                         <a @click.prevent="listShow" href="#"><i class="fas fa-list-ul"></i></a>
                         <a @click.prevent="colorShow" href="#"><i class="fas fa-palette"></i></a>
                         <a @click.prevent="addNewItem" href="#"><i class="fas fa-check"></i></a>
@@ -51,17 +53,6 @@
                             v-model="backgroundColor"
                     ></color-picker>
                 </div>
-                <image-uploader
-                        :preview="false"
-                        :className="['fileinput', { 'fileinput--loaded': hasImage }]"
-                        capture="environment"
-                        :debug="0"
-                        doNotResize="gif"
-                        :autoRotate="true"
-                        outputFormat="verbose"
-                        @input="setImage"
-                >
-                </image-uploader>
             </div>
         </form>
     </div>
@@ -70,6 +61,7 @@
 <script>
     import listItem from './addListItem'
     import itemDrawing from './addItemDrawing'
+    import itemImage from './addItemImage'
     import ClickOutside from 'vue-click-outside'
 
     export default {
@@ -80,11 +72,22 @@
             },
             searchActive() {
                 return this.$store.state.searchActive
+            },
+            image: {
+                get() {
+                    let self = this;
+                    return self.$store.state.newItemImage
+                },
+                set(value) {
+                    let self = this;
+                    self.$store.commit('addNewItemImage', value);
+                }
             }
         },
         components: {
             listItem,
-            itemDrawing
+            itemDrawing,
+            itemImage
         },
         data() {
             return {
@@ -97,15 +100,15 @@
                     imageVisibility: false,
                     drawVisibility: false
                 },
+                message: '',
                 progress: null,
                 error: null,
                 hasImage: false,
-                image: null
             }
         },
         methods: {
             addNewItem() {
-                if (this.$refs.project.value) {
+                if (this.message) {
                     let lastItemID = 0;
                     if (this.$store.state.todos.length) {
                         lastItemID = Math.max.apply(Math, this.$store.state.todos.map(function(x){return x.id})) + 1;
@@ -120,14 +123,14 @@
                         id: lastItemID,
                         image: this.image,
                         title: this.$refs.title.value,
-                        project: this.$refs.project.value,
+                        project: this.message,
                         doneCheck: false,
                         pinned: this.pinStatus,
                         bgc: {backgroundColor: this.backgroundColor},
                         list: newItemList
                     };
                     this.$refs.title.value = '';
-                    this.$refs.project.value = '';
+                    this.message = '';
                     this.backgroundColor = '';
                     this.image = false;
                     this.$store.state.newItemList = [{checked: false, id: 0, visited: false, content: ''}];
@@ -136,6 +139,7 @@
                 }
             },
             setImage: function(output) {
+                this.addItemStates.drawVisibility = false;
                 this.hasImage = true;
                 this.image = output;
             },
@@ -147,7 +151,8 @@
                 if (this.addItemStates.listVisibility) this.listShow();
                 if (this.addItemStates.colorVisibility) this.colorShow();
                 this.image = null;
-                this.formVisibility = false
+                this.formVisibility = false;
+                this.addItemStates.drawVisibility = false
             },
             colorShow() {
                 this.addItemStates.colorVisibility = this.addItemStates.colorVisibility !== true
@@ -157,9 +162,6 @@
             },
             pinNewItem() {
                 this.pinStatus = this.pinStatus !== true
-            },
-            textareaResize() {
-                this.$refs.project.style.minHeight = this.$refs.project.scrollHeight + 'px';
             },
             titleEnter() {
                 document.getElementById('description').focus()
