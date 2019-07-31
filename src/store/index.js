@@ -112,8 +112,13 @@ export default new Vuex.Store({
             state.todos[currIndex].pinned = true !== state.todos[currIndex].pinned
         },
         markDone(state, item) {
-            const currIndex = state.todos.indexOf(item);
-            state.todos[currIndex].doneCheck = true !== state.todos[currIndex].doneCheck
+            item.forEach(function (sinlge) {
+                state.todos.find(function (obj) {
+                    if (obj.id === sinlge ) {
+                        obj.doneCheck = true
+                    }
+                })
+            })
         },
         updateGlobalColor(state, item) {
             const elementPos = state.todos.map(function(x) {return x.id; }).indexOf(item.id);

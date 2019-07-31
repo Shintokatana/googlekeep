@@ -1,7 +1,13 @@
 <template>
     <transition name="show">
         <div class="checked-wrapper" v-show="checkedItems.length > 0">
-            <i class="fas fa-times-circle" @click="deleteItems(checkedItems)"></i>
+            <div>
+                <h1>Items Selected: {{checkedItems.length}}{{checkedItems}}</h1>
+            </div>
+            <div class="controls">
+                <a @click.prevent="markDone(checkedItems)" href="#"><i class="fas fa-check"></i></a>
+                <a @click.prevent="deleteItems(checkedItems)" href="#"><i class="fas fa-times-circle"></i></a>
+            </div>
         </div>
     </transition>
 </template>
@@ -17,6 +23,9 @@
         methods: {
             deleteItems(array) {
                 this.$store.commit('deleteGlobalItem', array)
+            },
+            markDone(array) {
+                this.$store.commit('markDone', array)
             }
         }
     }
@@ -25,7 +34,8 @@
 <style scoped lang="scss">
 
     .checked-wrapper {
-        position: absolute;
+        position: fixed;
+        z-index: 10;
         top: 0;
         left: 0;
         right: 0;
@@ -33,6 +43,11 @@
         background-color: white;
         box-shadow: 0 0 3px 4px #eee;
         transition: .4s ease all;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: space-around;
     }
 
     .show-enter-active, .show-leave-active {

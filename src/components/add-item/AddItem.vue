@@ -210,6 +210,10 @@
                         color: black;
                         cursor: pointer;
                         margin: 0 7px;
+
+                        &:hover {
+                            color: #42b883;
+                        }
                     }
                 }
 

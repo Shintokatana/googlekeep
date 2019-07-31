@@ -15,7 +15,7 @@
             </div>
             <div class="bottom-content">
                 <div><a class="delete" @click.prevent="deleteTodo([todo.id])"><i class="far fa-times-circle"></i></a></div>
-                <div><a class="status-in-progress" @click.prevent="markDone(todo)"><i class="fas fa-check"></i></a></div>
+                <div><a class="status-in-progress" @click.prevent="markDone([todo.id])"><i class="fas fa-check"></i></a></div>
                 <div class="more-wrapper">
                     <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
                     <div class="color-picker" v-if="colorPickerShow">
@@ -27,6 +27,9 @@
                                 colors="material-light"
                                 @input="showColorPicker">
                         </color-picker>
+                        <v-color-picker>
+                            
+                        </v-color-picker>
                     </div>
                 </div>
             </div>
@@ -194,6 +197,10 @@
             a {
                 color: black;
                 font-size: 12px;
+
+                &:hover {
+                    color: #42b883;
+                }
             }
 
             .delete {

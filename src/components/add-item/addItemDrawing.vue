@@ -168,6 +168,10 @@
                 font-size: 16px;
                 color: black;
                 margin-right: 10px;
+
+                &:hover {
+                    color: #42b883;
+                }
             }
         }
 

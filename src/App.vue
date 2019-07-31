@@ -30,6 +30,13 @@ export default {
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
   }
+
+  a {
+    color: black;
+  }
+  a:hover {
+    color: #42b883;
+  }
   *:visited {
     color: inherit;
   }
