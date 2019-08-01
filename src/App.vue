@@ -1,25 +1,18 @@
 <template>
   <div id="app">
-    <todo-list></todo-list>
+    <router-view/>
   </div>
 </template>
 
 <script>
-  import TodoList from './components/TodoList'
-export default {
-  name: 'app',
-  components: {
-    TodoList
-  },
-  computed: {
-    checked: function () {
-      return this.$store.selectedItems;
-    }
+  export default {
+    name: 'app',
+    components: {
+    },
   }
-}
 </script>
 
-<style>
+<style lang="scss">
   #app {
   }
   body {
@@ -33,9 +26,10 @@ export default {
 
   a {
     color: black;
-  }
-  a:hover {
-    color: #42b883;
+
+    &:hover {
+      color: #42b883;
+    }
   }
   *:visited {
     color: inherit;

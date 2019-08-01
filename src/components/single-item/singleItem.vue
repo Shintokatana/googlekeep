@@ -1,12 +1,12 @@
 <template>
-    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned}">
+    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned, done: todo.doneCheck}">
         <selectItem :id="todo.id" class="item-check"></selectItem>
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
             <div v-if="todo.image" class="image-wrapper">
                 <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
             </div>
-            <div class='content'>
+            <div class="content">
                 <div class="title">{{todo.title}}</div>
                 <div class="description"><p>{{todo.project}}</p></div>
                 <div class="list">
@@ -94,6 +94,15 @@
         cursor: pointer;
     }
     .todo-item {
+
+        &.done {
+            .todo-body {
+                border-color: black;
+                .status-in-progress {
+                    color: #42b883;
+                }
+            }
+        }
 
         &.selected {
             .todo-body {

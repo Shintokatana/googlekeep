@@ -29,6 +29,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
+    "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.0"
   },
@@ -50,6 +51,9 @@
     "plugins": {
       "autoprefixer": {}
     }
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
   },
   "browserslist": [
     "> 1%",

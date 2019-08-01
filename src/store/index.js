@@ -112,10 +112,10 @@ export default new Vuex.Store({
             state.todos[currIndex].pinned = true !== state.todos[currIndex].pinned
         },
         markDone(state, item) {
-            item.forEach(function (sinlge) {
+            item.forEach(function (single) {
                 state.todos.find(function (obj) {
-                    if (obj.id === sinlge ) {
-                        obj.doneCheck = true
+                    if (obj.id === single ) {
+                        obj.doneCheck = obj.doneCheck !== true;
                     }
                 })
             })

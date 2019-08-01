@@ -1,4 +1,8 @@
 // vue.config.js
+
 module.exports = {
-    publicPath: '/googlekeep/'
+    publicPath: '/googlekeep/',
+    configureWebpack: {
+    },
+    runtimeCompiler: true
 };

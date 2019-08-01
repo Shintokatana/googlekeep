@@ -14,7 +14,7 @@ Vue.component('color-picker', Swatch);
 Vue.use(ImageUploader);
 Vue.use(Vuetify);
 
-const options = { name: 'lodash' };
+const options = {name: 'lodash'};
 Vue.use(VueLodash, options);
 
 Vue.config.productionTip = false;
@@ -25,5 +25,5 @@ Vue.config.productionTip = false;
 new Vue({
     router,
     store,
-  render: h => h(App)
+    render: function (h) { return h(App) }
 }).$mount('#app');
