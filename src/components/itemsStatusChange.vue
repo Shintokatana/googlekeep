@@ -2,7 +2,7 @@
     <transition name="show">
         <div class="checked-wrapper" v-show="checkedItems.length > 0">
             <div>
-                <h1>Items Selected: {{checkedItems.length}}{{checkedItems}}</h1>
+                <h1>Items Selected: {{checkedItems.length}}</h1>
             </div>
             <div class="controls">
                 <a @click.prevent="markDone(checkedItems)" href="#"><i class="fas fa-check"></i></a>

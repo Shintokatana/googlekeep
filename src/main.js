@@ -4,18 +4,15 @@ import store from './store'
 import router from './router'
 import Swatch from 'vue-swatches'
 import ImageUploader from 'vue-image-upload-resize'
-import VueLodash from 'vue-lodash'
-import Vuetify from 'vuetify'
+import underscore from 'vue-underscore'
+import vuetify from './plugins/vuetify'
 
 /**
  * Global Components Registration
  */
 Vue.component('color-picker', Swatch);
 Vue.use(ImageUploader);
-Vue.use(Vuetify);
-
-const options = {name: 'lodash'};
-Vue.use(VueLodash, options);
+Vue.use(underscore);
 
 Vue.config.productionTip = false;
 
@@ -25,5 +22,7 @@ Vue.config.productionTip = false;
 new Vue({
     router,
     store,
+    vuetify,
     render: function (h) { return h(App) }
 }).$mount('#app');
+

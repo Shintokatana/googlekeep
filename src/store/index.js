@@ -91,7 +91,8 @@ export default new Vuex.Store({
         selectedItems: [
 
         ],
-        searchActive: false
+        searchActive: false,
+        singleModalView: false
     },
     mutations: {
         updateGlobalItems(state, items) {
@@ -137,14 +138,9 @@ export default new Vuex.Store({
         },
         addNewItemImage(state, src) {
             state.newItemImage = src
-        }
-    },
-    actions: {
-        deleteGlobalItem({commit}, array) {
-            commit('deleteGlobalItem', array)
         },
-        updateSelectedItems({commit}, id) {
-            commit('updateSelectedItems', id)
+        showModal(state, visibility) {
+            state.singleModalView = visibility
         }
     }
 })

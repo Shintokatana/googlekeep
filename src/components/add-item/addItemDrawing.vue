@@ -123,6 +123,7 @@
                 vm.canvas.width = 620;
                 vm.points.length = 0;
                 vm.drawStatus = false;
+                this.image = {dataUrl: ''}
             },
             saveImage() {
                 this.visibilityOptions.lineVisibility = false;

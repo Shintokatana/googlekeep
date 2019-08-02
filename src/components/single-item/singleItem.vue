@@ -1,12 +1,26 @@
 <template>
-    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned, done: todo.doneCheck}">
-        <selectItem :id="todo.id" class="item-check"></selectItem>
+    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned, done: todo.doneCheck, modalitem: singleModal }">
+        <selectItem :id="todo.id" class="item-check" v-if="!singleModal"></selectItem>
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
-            <div v-if="todo.image" class="image-wrapper">
+            <router-link v-on:click.native="modalShow" :to="{name: 'single', params:{id: todo.id}}" v-if="!singleModal">
+                <div v-if="todo.image" class="image-wrapper">
+                    <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
+                </div>
+            </router-link>
+            <div v-if="todo.image && singleModal" class="image-wrapper">
                 <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
             </div>
-            <div class="content">
+            <router-link v-on:click.native="modalShow" :to="{name: 'single', params:{id: todo.id}}" v-if="!singleModal">
+                <div class="content">
+                    <div class="title">{{todo.title}}</div>
+                    <div class="description"><p>{{todo.project}}</p></div>
+                    <div class="list">
+                        <singleItemListRender v-bind:id="todo.id"></singleItemListRender>
+                    </div>
+                </div>
+            </router-link>
+            <div class="content" v-else-if="singleModal">
                 <div class="title">{{todo.title}}</div>
                 <div class="description"><p>{{todo.project}}</p></div>
                 <div class="list">
@@ -27,9 +41,6 @@
                                 colors="material-light"
                                 @input="showColorPicker">
                         </color-picker>
-                        <v-color-picker>
-                            
-                        </v-color-picker>
                     </div>
                 </div>
             </div>
@@ -50,9 +61,7 @@
             selectItem,
             singleLinkItemArea
         },
-        props: {
-            todo: Object
-        },
+        props: ['todo', 'singleModal'],
         data() {
             return {
                 bgclr: '',
@@ -74,7 +83,11 @@
                 this.colorPickerShow = !this.colorPickerShow;
             },
             deleteTodo(id) {
-                this.$store.commit('deleteGlobalItem', id)
+                this.$store.commit('deleteGlobalItem', id);
+                if (this.singleModal) {
+                    this.$store.commit('showModal', false);
+                    this.$router.push( {name: 'home'} );
+                }
             },
             markDone(todo) {
                 this.$store.commit('markDone', todo)
@@ -84,6 +97,9 @@
             },
             updateColor(item) {
                 this.$store.commit('updateGlobalColor', item);
+            },
+            modalShow() {
+                this.$store.commit('showModal', true);
             }
         }
     }
@@ -169,6 +185,7 @@
             border: 1px solid #eeeeee;
             border-radius: 10px;
             overflow: hidden;
+            min-height: 100px;
 
             .content {
 

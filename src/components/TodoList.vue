@@ -22,6 +22,7 @@
             </transition-group>
         </draggable>
         <keepFooter></keepFooter>
+        <modalView></modalView>
     </div>
 </template>
 
@@ -34,6 +35,7 @@
     import itemSearch from './itemsSearch'
     import keepHeader from './keepHeader'
     import keepFooter from './keepFooter'
+    import modalView from './single-item/singleItemModalView'
 
     export default {
         components: {
@@ -44,11 +46,12 @@
             itemStatusChange,
             itemSearch,
             keepHeader,
-            keepFooter
+            keepFooter,
+            modalView
         },
         data() {
             return {
-                drag: false
+                drag: false,
             }
         },
         computed: {

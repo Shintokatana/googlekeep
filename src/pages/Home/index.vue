@@ -1,17 +1,19 @@
 <template>
     <div>
+        <Sidebar></Sidebar>
         <TodoList></TodoList>
-        <router-view name="single"></router-view>
     </div>
 </template>
 
 <script>
     import TodoList from '../../components/TodoList.vue'
+    import Sidebar from '../../sidebar/sidebar'
 
     export default {
         name: "Home",
         components: {
-            TodoList
+            TodoList,
+            Sidebar
         }
     }
 </script>

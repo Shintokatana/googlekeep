@@ -80,7 +80,9 @@
                 },
                 set(value) {
                     let self = this;
-                    self.$store.commit('addNewItemImage', value);
+                    if (self) {
+                        self.$store.commit('addNewItemImage', value);
+                    }
                 }
             }
         },
@@ -147,12 +149,14 @@
                 this.formVisibility = true
             },
             formClose() {
-                this.addNewItem();
-                if (this.addItemStates.listVisibility) this.listShow();
-                if (this.addItemStates.colorVisibility) this.colorShow();
-                this.image = null;
-                this.formVisibility = false;
-                this.addItemStates.drawVisibility = false
+                if(this.formVisibility) {
+                    this.addNewItem();
+                    if (this.addItemStates.listVisibility) this.listShow();
+                    if (this.addItemStates.colorVisibility) this.colorShow();
+                    this.image = null;
+                    this.formVisibility = false;
+                    this.addItemStates.drawVisibility = false
+                }
             },
             colorShow() {
                 this.addItemStates.colorVisibility = this.addItemStates.colorVisibility !== true
