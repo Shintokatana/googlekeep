@@ -13,6 +13,8 @@
 </template>
 
 <script>
+    import {db} from "../main"
+
     export default {
         name: "itemsStatusChange",
         computed: {
@@ -22,10 +24,13 @@
         },
         methods: {
             deleteItems(array) {
-                this.$store.commit('deleteGlobalItem', array)
+                array.forEach((single) => {
+                    db.collection('todos').doc(single).delete()
+                });
+                this.$store.dispatch('setTodos');
             },
             markDone(array) {
-                this.$store.commit('markDone', array)
+                // this.$store.commit('markDone', array)
             }
         }
     }

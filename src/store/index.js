@@ -1,84 +1,13 @@
-import Vue from 'vue';
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from "vuex"
+import firebase from 'firebase'
+import { db } from '../main'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        todos: [
-            {
-                id: 0,
-                image: '',
-                title: 'Title 1',
-                project: 'Project A',
-                doneCheck: false,
-                pinned: false,
-                bgc: {
-                    backgroundColor: ''
-                },
-                list: []
-            },
-            {
-                id: 1,
-                image: '',
-                title: 'Title 2',
-                project: 'description',
-                doneCheck: false,
-                pinned: false,
-                bgc: {
-                    backgroundColor: ''
-                },
-                list: []
-            },
-            {
-                id: 2,
-                image: '',
-                title: 'Test 3',
-                project: 'https://google.com',
-                doneCheck: false,
-                pinned: false,
-                bgc: {
-                    backgroundColor: ''
-                },
-                list: []
-            },
-            {
-                id: 3,
-                image: '',
-                title: 'Test 4',
-                project: 'Project C',
-                doneCheck: false,
-                pinned: false,
-                bgc: {
-                    backgroundColor: ''
-                },
-                list: []
-            },
-            {
-                id: 4,
-                image: '',
-                title: 'Test 5',
-                project: 'Project C',
-                doneCheck: false,
-                pinned: false,
-                bgc: {
-                    backgroundColor: ''
-                },
-                list: []
-            },
-            {
-                id: 5,
-                image: '',
-                title: 'Test 6',
-                project: 'Project C',
-                doneCheck: false,
-                pinned: false,
-                bgc: {
-                    backgroundColor: ''
-                },
-                list: []
-            }
-        ],
+        todos: [],
         newItemList: [
             {
                 id: 0,
@@ -88,11 +17,11 @@ export default new Vuex.Store({
             }
         ],
         newItemImage: '',
-        selectedItems: [
-
-        ],
+        selectedItems: [],
         searchActive: false,
-        singleModalView: false
+        singleModalView: false,
+        user: null,
+        isAuthenticated: false
     },
     mutations: {
         updateGlobalItems(state, items) {
@@ -141,6 +70,47 @@ export default new Vuex.Store({
         },
         showModal(state, visibility) {
             state.singleModalView = visibility
+        },
+        setUser(state, payload) {
+            state.user = payload;
+        },
+        setIsAuthenticated(state, payload) {
+            state.isAuthenticated = payload;
+        },
+        setTodos: state => {
+            let todos = [];
+            let newTodoItem = {};
+            db.collection("todos").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    newTodoItem = doc.data();
+                    newTodoItem.id = doc.id;
+                    todos.push(newTodoItem);
+                });
+            });
+            state.todos = todos
+        }
+    },
+    getters: {
+        getTodos: state => {
+            return state.todos
+        }
+    },
+    actions: {
+        setTodos: context => {
+            context.commit('setTodos')
+        },
+        userJoin({ commit }, { email, password }) {
+            firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
+                .then(user => {
+                    commit('setUser', user);
+                    commit('setIsAuthenticated', true);
+                })
+                .catch(() => {
+                    commit('setUser', null);
+                    commit('setIsAuthenticated', false);
+                });
         }
     }
 })

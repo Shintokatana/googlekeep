@@ -63,6 +63,7 @@
     import itemDrawing from './addItemDrawing'
     import itemImage from './addItemImage'
     import ClickOutside from 'vue-click-outside'
+    import { db } from '../../main'
 
     export default {
         name: "AddItem",
@@ -121,7 +122,7 @@
                             newItemList.push(element)
                         }
                     });
-                    const newItem = {
+                    db.collection('todos').add({
                         id: lastItemID,
                         image: this.image,
                         title: this.$refs.title.value,
@@ -130,13 +131,13 @@
                         pinned: this.pinStatus,
                         bgc: {backgroundColor: this.backgroundColor},
                         list: newItemList
-                    };
+                    });
+                    this.$store.dispatch('setTodos');
                     this.$refs.title.value = '';
                     this.message = '';
                     this.backgroundColor = '';
                     this.image = false;
                     this.$store.state.newItemList = [{checked: false, id: 0, visited: false, content: ''}];
-                    this.$store.commit('addGlobalItem', newItem);
                     this.formVisibility = false
                 }
             },

@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="bottom-content">
-                <div><a class="delete" @click.prevent="deleteTodo([todo.id])"><i class="far fa-times-circle"></i></a></div>
+                <div><a class="delete" @click.prevent="deleteTodo(todo.id)"><i class="far fa-times-circle"></i></a></div>
                 <div><a class="status-in-progress" @click.prevent="markDone([todo.id])"><i class="fas fa-check"></i></a></div>
                 <div class="more-wrapper">
                     <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
@@ -53,6 +53,7 @@
     import singleItemListRender from './singleItemList'
     import selectItem from './selectItem'
     import singleLinkItemArea from './singleItemLinkArea'
+    import { db } from '../../main'
 
     export default {
         name: "TodoSingleItem",
@@ -83,10 +84,12 @@
                 this.colorPickerShow = !this.colorPickerShow;
             },
             deleteTodo(id) {
-                this.$store.commit('deleteGlobalItem', id);
+                db.collection('todos').doc(id).delete().then(() => {
+                    this.$store.dispatch('setTodos');
+                });
                 if (this.singleModal) {
                     this.$store.commit('showModal', false);
-                    this.$router.push( {name: 'home'} );
+                    this.$router.push({name: 'home'});
                 }
             },
             markDone(todo) {

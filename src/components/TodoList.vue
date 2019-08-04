@@ -54,6 +54,9 @@
                 drag: false,
             }
         },
+        beforeCreate: function () {
+            this.$store.dispatch('setTodos');
+        },
         computed: {
             todos: {
                 get() {

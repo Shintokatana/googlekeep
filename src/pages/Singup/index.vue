@@ -1,35 +1,67 @@
 <template>
-    <div class="singup">
-        <h1>Sing Up</h1>
-        <v-text-field
-                v-model="email"
-                label="Email"
-                type="email"
-                required>
-        </v-text-field>
-        <v-text-field
-                v-model="password"
-                type="password"
-                label="Password"
-                required>
-        </v-text-field>
-        <v-btn class="mr-4" @click="signUp">SignUp</v-btn>
-        <router-link :to="{ name: 'login' }"><v-btn class="mr-4">To go Login</v-btn></router-link>
-    </div>
+    <v-container fill-height>
+        <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+                <v-card class="elevation-12">
+                    <v-toolbar dark color="primary">
+                        <v-toolbar-title>Join Form</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form ref="form" v-model="valid" lazy-validation>
+                            <v-text-field prepend-icon="person" name="email" label="Email" type="email"
+                                          v-model="email" :rules="emailRules" required>
+                            </v-text-field>
+                            <v-text-field prepend-icon="lock" name="password" label="Password" id="password"
+                                          type="password" required v-model="password" :rules="passwordRules">
+                            </v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" :disabled="!valid" @click="submit">Join</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
-    import firebase from 'firebase'
 
     export default {
         name: "index",
-        data:() => ({
-            email: '',
-            password: ''
-        }),
+
+        data() {
+            return {
+                valid: false,
+                email: '',
+                password: '',
+                emailRules: [
+                    v => !!v || 'E-mail is required',
+                    v => /.+@.+/.test(v) || 'E-mail must be valid'
+                ],
+                passwordRules: [
+                    v => !!v || 'Password is required',
+                    v =>
+                        v.length >= 6 ||
+                        'Password must be greater than 6 characters'
+                ]
+            }
+        },
         methods: {
-            signUp() {
-                firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
+            submit() {
+                if (this.$refs.form.validate()) {
+                    this.$store.dispatch('userJoin', {
+                        email: this.email,
+                        password: this.password
+                    }).then(
+                        function (response) {
+                            console.log(response)
+                        },function (err) {
+                            console.log(err)
+                        }
+                    );
+                }
             }
         }
     }
@@ -37,7 +69,7 @@
 
 <style scoped lang="scss">
 
-    .singup {
+    .login {
         max-width: 600px;
         margin: 30px auto auto;
     }

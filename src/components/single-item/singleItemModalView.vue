@@ -35,12 +35,12 @@
                 get() {
                     let self = this;
                     return this.$store.state.todos.find(function (item) {
-                        return item.id === parseInt(self.$route.params.id)
+                        return item.id === self.$route.params.id
                     });
                 },
                 set(id) {
                     return this.$store.state.todos.find(function (item) {
-                        return item.id === parseInt(id)
+                        return item.id === id
                     });
                 }
             }
