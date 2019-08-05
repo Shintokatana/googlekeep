@@ -29,7 +29,6 @@
             </div>
             <div class="bottom-content">
                 <div><a class="delete" @click.prevent="deleteTodo(todo.id)"><i class="far fa-times-circle"></i></a></div>
-                <div><a class="status-in-progress" @click.prevent="markDone([todo.id])"><i class="fas fa-check"></i></a></div>
                 <div class="more-wrapper">
                     <a @click.prevent="showColorPicker" href="#"><i class="fas fa-palette"></i></a>
                     <div class="color-picker" v-if="colorPickerShow">
@@ -91,9 +90,6 @@
                     this.$store.commit('showModal', false);
                     this.$router.push({name: 'home'});
                 }
-            },
-            markDone(todo) {
-                this.$store.commit('markDone', todo)
             },
             pinItem(todo) {
                 this.$store.commit('pinGlobalItem', todo);

@@ -5,7 +5,6 @@
                 <h1>Items Selected: {{checkedItems.length}}</h1>
             </div>
             <div class="controls">
-                <a @click.prevent="markDone(checkedItems)" href="#"><i class="fas fa-check"></i></a>
                 <a @click.prevent="deleteItems(checkedItems)" href="#"><i class="fas fa-times-circle"></i></a>
             </div>
         </div>
@@ -19,7 +18,7 @@
         name: "itemsStatusChange",
         computed: {
             checkedItems: function () {
-                return this.$store.state.selectedItems
+                return this.$store.getters.getSelectedTodos
             }
         },
         methods: {
@@ -28,9 +27,6 @@
                     db.collection('todos').doc(single).delete()
                 });
                 this.$store.dispatch('setTodos');
-            },
-            markDone(array) {
-                // this.$store.commit('markDone', array)
             }
         }
     }

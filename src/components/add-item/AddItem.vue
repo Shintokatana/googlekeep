@@ -127,7 +127,6 @@
                         image: this.image,
                         title: this.$refs.title.value,
                         project: this.message,
-                        doneCheck: false,
                         pinned: this.pinStatus,
                         bgc: {backgroundColor: this.backgroundColor},
                         list: newItemList

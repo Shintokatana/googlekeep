@@ -4,7 +4,6 @@
         <itemStatusChange></itemStatusChange>
         <itemSearch></itemSearch>
         <AddItem></AddItem>
-        <itemStatus :todos="todos"></itemStatus>
         <draggable v-model="todos"
                    v-bind="dragOptions"
                    @start="drag = true"
@@ -30,7 +29,6 @@
     import AddItem from './add-item/AddItem'
     import TodoSingleItem from './single-item/singleItem'
     import draggable from 'vuedraggable'
-    import itemStatus from './itemStatus'
     import itemStatusChange from './itemsStatusChange'
     import itemSearch from './itemsSearch'
     import keepHeader from './keepHeader'
@@ -41,7 +39,6 @@
         components: {
             AddItem,
             TodoSingleItem,
-            itemStatus,
             draggable,
             itemStatusChange,
             itemSearch,
