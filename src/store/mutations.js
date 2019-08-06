@@ -20,6 +20,9 @@ export const mutations = {
             state.selectedItems.push(id)
         }
     },
+    clearSelectedItems(state) {
+        state.selectedItems = []
+    },
     searchActive(state, status) {
         state.searchActive = status
     },
@@ -35,7 +38,7 @@ export const mutations = {
     setTodos: state => {
         let todos = [];
         let newTodoItem = {};
-        db.collection("todos").get().then(function(querySnapshot) {
+        db.collection('todos').get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 newTodoItem = doc.data();
                 newTodoItem.id = doc.id;
@@ -43,5 +46,8 @@ export const mutations = {
             });
         });
         state.todos = todos
+    },
+    changeItemProps: ( state, change ) => {
+        console.log( state + change )
     }
 };

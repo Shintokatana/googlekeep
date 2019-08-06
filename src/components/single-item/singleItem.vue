@@ -1,32 +1,22 @@
 <template>
-    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned, done: todo.doneCheck, modalitem: singleModal }">
-        <selectItem :id="todo.id" class="item-check" v-if="!singleModal"></selectItem>
+    <div class="element todo-item" :class="{selected: checkStatus, pinned: todo.pinned }">
+        <selectItem :id="todo.id" class="item-check"></selectItem>
         <div class="todo-body" :style="todo.bgc">
             <a @click="pinItem(todo)" class="pin">Pin</a>
-            <router-link v-on:click.native="modalShow" :to="{name: 'single', params:{id: todo.id}}" v-if="!singleModal">
+            <router-link v-on:click.native="modalShow" :to="{name: 'single', params:{id: todo.id}}">
                 <div v-if="todo.image" class="image-wrapper">
                     <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
                 </div>
             </router-link>
-            <div v-if="todo.image && singleModal" class="image-wrapper">
-                <img v-bind:src="todo.image.dataUrl" v-bind:alt="todo.image.dataUrl">
-            </div>
-            <router-link v-on:click.native="modalShow" :to="{name: 'single', params:{id: todo.id}}" v-if="!singleModal">
+            <router-link v-on:click.native="modalShow" :to="{name: 'single', params:{id: todo.id}}">
                 <div class="content">
                     <div class="title">{{todo.title}}</div>
                     <div class="description"><p>{{todo.project}}</p></div>
                     <div class="list">
-                        <singleItemListRender v-bind:id="todo.id"></singleItemListRender>
+                        <singleItemListRender :id="todo.id"/>
                     </div>
                 </div>
             </router-link>
-            <div class="content" v-else-if="singleModal">
-                <div class="title">{{todo.title}}</div>
-                <div class="description"><p>{{todo.project}}</p></div>
-                <div class="list">
-                    <singleItemListRender v-bind:id="todo.id"></singleItemListRender>
-                </div>
-            </div>
             <div class="bottom-content">
                 <div><a class="delete" @click.prevent="deleteTodo(todo.id)"><i class="far fa-times-circle"></i></a></div>
                 <div class="more-wrapper">
@@ -38,12 +28,11 @@
                                 shapes="circles"
                                 swatch-size="18"
                                 colors="material-light"
-                                @input="showColorPicker">
-                        </color-picker>
+                                @input="showColorPicker"/>
                     </div>
                 </div>
             </div>
-            <singleLinkItemArea v-bind:item="todo"></singleLinkItemArea>
+            <singleLinkItemArea v-bind:item="todo"/>
         </div>
     </div>
 </template>
@@ -61,7 +50,7 @@
             selectItem,
             singleLinkItemArea
         },
-        props: ['todo', 'singleModal'],
+        props: ['todo'],
         data() {
             return {
                 bgclr: '',
@@ -75,7 +64,7 @@
         },
         watch: {
             bgclr: function (newColor) {
-                this.updateColor({id: this.todo.id, color: newColor})
+                this.updateColor({id: this.todo.id, color: newColor});
             }
         },
         methods: {
@@ -95,6 +84,8 @@
                 this.$store.commit('pinGlobalItem', todo);
             },
             updateColor(item) {
+                let data = { bgc: { backgroundColor: item.color } };
+                db.collection('todos').doc(item.id).update(data);
                 this.$store.commit('updateGlobalColor', item);
             },
             modalShow() {
@@ -109,15 +100,6 @@
         cursor: pointer;
     }
     .todo-item {
-
-        &.done {
-            .todo-body {
-                border-color: black;
-                .status-in-progress {
-                    color: #42b883;
-                }
-            }
-        }
 
         &.selected {
             .todo-body {
@@ -185,6 +167,9 @@
             border-radius: 10px;
             overflow: hidden;
             min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
             .content {
 

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <keepHeader></keepHeader>
-        <itemStatusChange></itemStatusChange>
-        <itemSearch></itemSearch>
-        <AddItem></AddItem>
+        <keepHeader/>
+        <itemStatusChange/>
+        <itemSearch/>
+        <AddItem/>
         <draggable v-model="todos"
                    v-bind="dragOptions"
                    @start="drag = true"
@@ -20,8 +20,8 @@
                 </TodoSingleItem>
             </transition-group>
         </draggable>
-        <keepFooter></keepFooter>
-        <modalView></modalView>
+        <keepFooter/>
+        <modalView/>
     </div>
 </template>
 
@@ -61,7 +61,7 @@
                     if (self.$store.state.searchedItems) {
                         return self.$store.state.searchedItems
                     } else {
-                        return self.$store.state.todos.sort(function(x, y) { return y.pinned - x.pinned || y.doneCheck - x.doneCheck });
+                        return self.$store.state.todos.sort(function(x, y) { return y.pinned - x.pinned });
                     }
                 },
                 set(value) {
@@ -71,7 +71,7 @@
             },
             dragOptions() {
                 return {
-                    animation: 200,
+                    animation: 500,
                     group: "description",
                     disabled: false,
                     ghostClass: "ghost"

@@ -5,7 +5,7 @@
                 <img v-if="image" v-bind:src="image.dataUrl" v-bind:alt="image.dataUrl">
             </div>
             <div v-if="addItemStates.drawVisibility">
-                <itemDrawing></itemDrawing>
+                <itemDrawing/>
             </div>
             <div v-show="formVisibility">
                 <div class="pin-wrapper"><a @click.prevent="pinNewItem" href="#" class="pin-item"><i class="fas fa-map-pin"></i></a></div>
@@ -24,19 +24,18 @@
                     placeholder="Insert Content"
                     rows="1"
                     row-height=24
-                    auto-grow>
-                </v-textarea>
+                    auto-grow/>
             </div>
             <div v-show="formVisibility" class="additionals-wrapper">
                 <div class="list-wrapper" v-if="addItemStates.listVisibility">
-                    <listItem></listItem>
+                    <listItem/>
                 </div>
                 <div class="additionals">
                     <div>
                         <a @click.prevent="formClose" href="#"><i class="fas fa-times"></i></a>
                     </div>
                     <div style="display: flex">
-                        <itemImage></itemImage>
+                        <itemImage/>
                         <a @click.prevent="listShow" href="#"><i class="fas fa-list-ul"></i></a>
                         <a @click.prevent="colorShow" href="#"><i class="fas fa-palette"></i></a>
                         <a @click.prevent="addNewItem" href="#"><i class="fas fa-check"></i></a>
@@ -50,8 +49,7 @@
                             swatch-size="20"
                             colors="material-light"
                             @input="colorShow"
-                            v-model="backgroundColor"
-                    ></color-picker>
+                            v-model="backgroundColor"/>
                 </div>
             </div>
         </form>
@@ -112,19 +110,21 @@
         methods: {
             addNewItem() {
                 if (this.message) {
-                    let lastItemID = 0;
-                    if (this.$store.state.todos.length) {
-                        lastItemID = Math.max.apply(Math, this.$store.state.todos.map(function(x){return x.id})) + 1;
-                    }
                     let newItemList = [];
                     this.$store.state.newItemList.forEach(function (element) {
                         if (element.content) {
                             newItemList.push(element)
                         }
                     });
+                    let lastItemOrder;
+                    if (this.$store.state.todos.length > 0 ) {
+                        lastItemOrder = Math.max.apply(Math, this.$store.state.todos.map(function(o) { return o.order; })) + 1;
+                    } else {
+                        lastItemOrder = 1;
+                    }
                     db.collection('todos').add({
-                        id: lastItemID,
                         image: this.image,
+                        order: lastItemOrder,
                         title: this.$refs.title.value,
                         project: this.message,
                         pinned: this.pinStatus,

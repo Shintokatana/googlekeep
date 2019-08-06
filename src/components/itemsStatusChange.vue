@@ -17,16 +17,23 @@
     export default {
         name: "itemsStatusChange",
         computed: {
-            checkedItems: function () {
-                return this.$store.getters.getSelectedTodos
+            checkedItems: {
+                get() {
+                    return this.$store.getters.getSelectedTodos
+                },
+                set() {
+                    this.$store.commit('clearSelectedItems');
+                }
             }
         },
         methods: {
             deleteItems(array) {
                 array.forEach((single) => {
-                    db.collection('todos').doc(single).delete()
-                });
-                this.$store.dispatch('setTodos');
+                    db.collection('todos').doc(single).delete().then(() => {
+                        this.$store.commit('clearSelectedItems');
+                        this.$store.dispatch('setTodos');
+                    })
+                })
             }
         }
     }

@@ -17,7 +17,7 @@ export default new Vuex.Store({
                 content: ''
             }
         ],
-        newItemImage: '',
+        newItemImage: null,
         selectedItems: [],
         searchActive: false,
         singleModalView: false,

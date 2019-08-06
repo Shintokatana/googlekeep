@@ -19,7 +19,11 @@
         },
         computed: {
             searchedItems() {
-                return this.localItems.filter(item => { return item.project.toLowerCase().includes(this.search.toLowerCase())});
+                return this.localItems.filter(
+                    item => {
+                        return item.project.toLowerCase().includes( this.search.toLowerCase() )
+                    }
+                );
             }
         },
         methods: {

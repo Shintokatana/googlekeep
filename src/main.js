@@ -2,11 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-import Swatch from 'vue-swatches'
 import ImageUploader from 'vue-image-upload-resize'
 import underscore from 'vue-underscore'
 import vuetify from './plugins/vuetify'
 import firebase from 'firebase'
+
+import Swatch from 'vue-swatches'
+import "vue-swatches/dist/vue-swatches.min.css"
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZUyXFqmKSi6iP0c-TItLiys6AnEDqJNA",
