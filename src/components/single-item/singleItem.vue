@@ -72,8 +72,9 @@
                 this.colorPickerShow = !this.colorPickerShow;
             },
             deleteTodo(id) {
-                db.collection('todos').doc(id).delete().then(() => {
-                    this.$store.dispatch('setTodos');
+                let token = this.$store.getters.getToken;
+                db.collection('todos' + token).doc(id).delete().then(() => {
+                    this.$store.dispatch('setTodos', token);
                 });
                 if (this.singleModal) {
                     this.$store.commit('showModal', false);

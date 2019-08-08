@@ -6,10 +6,17 @@ import ImageUploader from 'vue-image-upload-resize'
 import underscore from 'vue-underscore'
 import vuetify from './plugins/vuetify'
 import firebase from 'firebase'
+import GSignInButton from 'vue-google-signin-button'
+
+import './colors'
 
 import Swatch from 'vue-swatches'
 import "vue-swatches/dist/vue-swatches.min.css"
 
+
+/**
+ * Firebase initialization
+ */
 const firebaseConfig = {
     apiKey: "AIzaSyCZUyXFqmKSi6iP0c-TItLiys6AnEDqJNA",
     authDomain: "my-project-1501060601734.firebaseapp.com",
@@ -20,11 +27,7 @@ const firebaseConfig = {
     appId: "1:676292112942:web:db010fe99314d057"
 };
 
-/**
- * Firebase initialization
- */
 firebase.initializeApp(firebaseConfig);
-
 export const db = firebase.firestore();
 
 /**
@@ -33,6 +36,16 @@ export const db = firebase.firestore();
 Vue.component('color-picker', Swatch);
 Vue.use(ImageUploader);
 Vue.use(underscore);
+Vue.use(GSignInButton);
+
+const gaConfig = {
+    client_id: '676292112942-elg6tilkpoouvlpp91369rotm269hr21.apps.googleusercontent.com'
+};
+export const GoogleAuth = gapi.auth2.init(
+    gaConfig
+);
+
+
 
 Vue.config.productionTip = false;
 

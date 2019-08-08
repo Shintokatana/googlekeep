@@ -21,8 +21,9 @@ export default new Vuex.Store({
         selectedItems: [],
         searchActive: false,
         singleModalView: false,
-        user: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        userInfo: {},
+        accessToken: ''
     },
     mutations: mutations,
     actions: actions,

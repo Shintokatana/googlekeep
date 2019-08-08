@@ -2,15 +2,12 @@
     <v-layout justify-center data-app="modal" v-if="dialog">
         <v-dialog v-model="dialog" max-width="600">
             <div class="single-zoomed-item">
-                <single :todo="currentItem" :key="id"/>
             </div>
         </v-dialog>
     </v-layout>
 </template>
 
 <script>
-    import single from './singleItemModal'
-
     export default {
         name: "singleItemModalView",
         data() {
@@ -19,7 +16,6 @@
             }
         },
         components: {
-            single
         },
         computed: {
             dialog: {

@@ -1,8 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
 import Home from '../pages/Home'
-import Login from '../pages/Login'
-import Singup from '../pages/Singup'
 import NotFound from '../pages/notFound'
 import SingleItemPage from '../components/single-item/singleItemModalView'
 
@@ -25,8 +23,6 @@ const router = new Router({
                 requiresAuth: true
             }
         },
-        { path: '/login', name: 'login', component: Login },
-        { path: '/sing-up', name: 'singUp', component: Singup },
         { path: '/not-found',  component: NotFound },
         { path: '*',  redirect: '/not-found' }
     ]

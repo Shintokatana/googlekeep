@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" data-app="nariman">
     <router-view/>
   </div>
 </template>
@@ -7,13 +7,12 @@
 <script>
   export default {
     name: 'app',
-    components: {
-    }
   }
 </script>
 
 <style lang="scss">
   #app {
+    min-height: 100vh;
   }
   body {
     hyphens: auto;

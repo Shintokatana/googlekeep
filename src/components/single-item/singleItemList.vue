@@ -15,8 +15,6 @@
                 });
                 return item.list
             }
-        },
-        methods: {
         }
     }
 </script>

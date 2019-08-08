@@ -1,8 +1,8 @@
 <template>
-    <div class="add-form-wrapper" v-if="!searchActive">
+    <div class="add-form-wrapper" v-if="!searchActive && this.$store.getters.getAuth">
         <form autocomplete="off" v-click-outside="formClose" class="add-form" :style="{backgroundColor: backgroundColor}" :class="{pinned: pinStatus}">
             <div v-if="formVisibility" class="image-wrapper">
-                <img v-if="image" v-bind:src="image.dataUrl" v-bind:alt="image.dataUrl">
+                <img v-if="image" :src="image.dataUrl" :alt="image.dataUrl">
             </div>
             <div v-if="addItemStates.drawVisibility">
                 <itemDrawing/>
@@ -15,16 +15,7 @@
                 </div>
             </div>
             <div>
-                <v-textarea
-                    @click="formShow"
-                    id="description"
-                    v-model="message"
-                    no-resize
-                    counter
-                    placeholder="Insert Content"
-                    rows="1"
-                    row-height=24
-                    auto-grow/>
+                <textarea @input="test" ref="message" v-model="message" rows="1" placeholder="Insert Content" @click="formShow"></textarea>
             </div>
             <div v-show="formVisibility" class="additionals-wrapper">
                 <div class="list-wrapper" v-if="addItemStates.listVisibility">
@@ -122,7 +113,8 @@
                     } else {
                         lastItemOrder = 1;
                     }
-                    db.collection('todos').add({
+                    let token = this.$store.getters.getToken;
+                    db.collection('todos' + token).add({
                         image: this.image,
                         order: lastItemOrder,
                         title: this.$refs.title.value,
@@ -131,7 +123,7 @@
                         bgc: {backgroundColor: this.backgroundColor},
                         list: newItemList
                     });
-                    this.$store.dispatch('setTodos');
+                    this.$store.dispatch('setTodos', token);
                     this.$refs.title.value = '';
                     this.message = '';
                     this.backgroundColor = '';
@@ -139,6 +131,12 @@
                     this.$store.state.newItemList = [{checked: false, id: 0, visited: false, content: ''}];
                     this.formVisibility = false
                 }
+            },
+            test() {
+                const area = this.$refs.message;
+
+                area.style.height = 'auto';
+                area.style.height = `${area.scrollHeight}px`;
             },
             setImage: function(output) {
                 this.addItemStates.drawVisibility = false;

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="this.$store.getters.getAuth">
         <div class="search-form">
             <input id="search" type="text" ref="search-field" placeholder="Search title.." @input="searchItems" v-model="search">
             <label for="search">Search items</label>

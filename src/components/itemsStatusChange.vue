@@ -31,7 +31,8 @@
                 array.forEach((single) => {
                     db.collection('todos').doc(single).delete().then(() => {
                         this.$store.commit('clearSelectedItems');
-                        this.$store.dispatch('setTodos');
+                        let token = this.$store.getters.getToken;
+                        this.$store.dispatch('setTodos', token);
                     })
                 })
             }

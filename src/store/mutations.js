@@ -35,10 +35,10 @@ export const mutations = {
     showModal(state, visibility) {
         state.singleModalView = visibility
     },
-    setTodos: state => {
+    setTodos: (state, token ) => {
         let todos = [];
         let newTodoItem = {};
-        db.collection('todos').get().then(function(querySnapshot) {
+        db.collection('todos' + token ).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 newTodoItem = doc.data();
                 newTodoItem.id = doc.id;
@@ -47,7 +47,13 @@ export const mutations = {
         });
         state.todos = todos
     },
-    changeItemProps: ( state, change ) => {
-        console.log( state + change )
+    userMetaData: (state, userData ) => {
+        state.userInfo = userData
+    },
+    isAuth: (state, Data ) => {
+        state.isAuthenticated = Data;
+    },
+    tokenSet: (state, token ) => {
+        state.accessToken = token
     }
 };

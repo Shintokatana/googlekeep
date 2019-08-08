@@ -7,7 +7,8 @@
         <draggable v-model="todos"
                    v-bind="dragOptions"
                    @start="drag = true"
-                   @end="drag = false">
+                   @end="drag = false"
+                   v-if="this.isAuth">
             <transition-group type="transition"
                               tag="div"
                               class="items-wrapper"
@@ -20,6 +21,7 @@
                 </TodoSingleItem>
             </transition-group>
         </draggable>
+        <Auth/>
         <keepFooter/>
         <modalView/>
     </div>
@@ -34,6 +36,8 @@
     import keepHeader from './keepHeader'
     import keepFooter from './keepFooter'
     import modalView from './single-item/singleItemModalView'
+    import Auth from '../components/requireAuth'
+
 
     export default {
         components: {
@@ -44,17 +48,18 @@
             itemSearch,
             keepHeader,
             keepFooter,
-            modalView
+            modalView,
+            Auth
         },
         data() {
             return {
-                drag: false,
+                drag: false
             }
         },
-        beforeCreate: function () {
-            this.$store.dispatch('setTodos');
-        },
         computed: {
+            isAuth() {
+                return this.$store.state.isAuthenticated
+            },
             todos: {
                 get() {
                     let self = this;
